@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "email": "user@mail.com",
+      "password": "$2a$10$oMiUW911mbPySvOZasxEXuz1qO66inJanO6i2c1jEC01mecj2xOMy",
+      "name": "user",
+      "id": 1
+    },
+    {
+      "email": "admin@mail.com",
+      "password": "$2a$10$Xg6ecTu3a9KLxDGWLBIVK.lbNr.wkg.OcKiGnC8cwFHxh7GGzSyw.",
+      "name": "Admin",
+      "id": 2
+    }
+  ],
+  "contracts": [],
+  "customers": [],
+  "operations": []
+}
