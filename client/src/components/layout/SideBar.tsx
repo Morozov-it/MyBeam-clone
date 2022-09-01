@@ -17,33 +17,19 @@ const Wrapper = styled(Layout.Sider)`
             font-size: 30px;
         }
     }
-    .ant-layout-sider-zero-width-trigger {
-        top: 0;
-        color: #001529;
-        background: #fff;
-    }
 `
 
 const SideBar: React.FC = () => {
-    const sideLinks = useRef(authRoutes.slice(1))
+    const sideLinks = useRef(authRoutes.slice(2))
     const [selectedKeys, setSelectedKeys] = useState<string[]>([])
-    const [collapsedWidth, setCollapsedWidth] = useState<number>(80)
-    const [collapsed, setCollapsed] = useState<boolean>(false)
+    const [collapsed, setCollapsed] = useState<boolean>(true)
     const navigate = useNavigate()
 
     return (
         <Wrapper
             collapsible
             collapsed={collapsed}
-            onCollapse={(value) => {
-                console.log(value)
-                setCollapsed(value)
-            }}
-            breakpoint="xs"
-            collapsedWidth={collapsedWidth}
-            onBreakpoint={broken => {
-                broken ? setCollapsedWidth(0) : setCollapsedWidth(80)
-            }}
+            onCollapse={(value) => setCollapsed(value)}
         >
             <div className='logo'>
                 <Link to={Routes.HOME} onClick={() => setSelectedKeys([])}><ChromeOutlined /></Link>

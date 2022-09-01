@@ -7,25 +7,25 @@ import {
     ForkOutlined,
     HomeOutlined, 
     LoginOutlined,
-    QuestionOutlined,
     ReadOutlined,
+    SettingOutlined,
     UserSwitchOutlined,
 } from "@ant-design/icons"
 import PageInDevelopment from "@pages/PageInDevelopment"
 import Login from "@pages/Login"
 import Register from "@pages/Register"
-import NotRemember from "@pages/NotRemember"
 
 const Home = lazy(() => import('../pages/Home'))
 const Deals = lazy(() => import('../pages/contracts/Deals'))
 const Customers = lazy(() => import('../pages/contracts/Customers'))
 const Operations = lazy(() => import('../pages/contracts/Operations'))
+const UserSettings = lazy(() => import('../pages/UserSettings'))
 
 export enum Routes {
     HOME = '/',
     LOGIN = '/login',
     REGISTER = '/register',
-    NOT_REMEMBER = 'not-remember',
+    USER_SETTINGS = '/user-settings',
     CONTRACTS = '/contracts',
     CONTRACTS_DEALS = '/contracts/deals',
     CONTRACTS_CUSTOMERS = '/contracts/customers',
@@ -33,12 +33,20 @@ export enum Routes {
     NOT_FOUND = "*",
 }
 
+// ATTENTION!!! DOES NOT CHANGE THE ORDER OF ARRAY ITEMS!
 export const authRoutes: Route[] = [
     {
         path: Routes.HOME,
         element: <Home />,
         icon: <HomeOutlined />,
         title: 'Главная',
+        innerLinks: []
+    },
+    {
+        path: Routes.USER_SETTINGS,
+        element: <UserSettings />,
+        icon: <SettingOutlined />,
+        title: 'Параметры',
         innerLinks: []
     },
     {
@@ -85,13 +93,6 @@ export const publicRoutes: Route[] = [
         element: <Register />,
         icon: <ReadOutlined />,
         title: 'Регистрация',
-        innerLinks: []
-    },
-    {
-        path: Routes.NOT_REMEMBER,
-        element: <NotRemember />,
-        icon: <QuestionOutlined />,
-        title: 'Забыли пароль',
         innerLinks: []
     },
     {

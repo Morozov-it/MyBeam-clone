@@ -1,3 +1,4 @@
+import { authRoutes } from "@app/routes"
 import { Route } from "@models/routes"
 
 export const mergeRoutes = (routes: Route[], mergedRoutes: Route[] = []) => {
@@ -7,3 +8,5 @@ export const mergeRoutes = (routes: Route[], mergedRoutes: Route[] = []) => {
     }
     return mergedRoutes
 }
+
+export const mergedRoutes = mergeRoutes(authRoutes)

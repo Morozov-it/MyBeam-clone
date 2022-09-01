@@ -1,7 +1,7 @@
+import { STORAGE_TOKEN_KEY, baseURL } from "@app/constants"
 import axios from "axios"
 
-export const accessToken = 'Bearer ' + localStorage.getItem(process.env.REACT_APP_STORAGE_TOKEN_KEY || '')
-export const baseURL = process.env.REACT_APP_BASE_URL || 'http://localhost:5000/'
+export const accessToken = 'Bearer ' + localStorage.getItem(STORAGE_TOKEN_KEY || '')
 
 export const apiInstance = axios.create({
     baseURL,

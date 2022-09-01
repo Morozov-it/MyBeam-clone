@@ -11,6 +11,12 @@
       "password": "$2a$10$Xg6ecTu3a9KLxDGWLBIVK.lbNr.wkg.OcKiGnC8cwFHxh7GGzSyw.",
       "name": "Admin",
       "id": 2
+    },
+    {
+      "email": "test@mail.com",
+      "password": "$2a$10$jgbFVWtbGJNjBro4zAgCQuNHSiTFV1wSje/cXLdfJtdPYElgIGwyO",
+      "name": "Test",
+      "id": 3
     }
   ],
   "contracts": [],

@@ -2,8 +2,9 @@ import React from 'react'
 import { Layout } from 'antd'
 import styled from 'styled-components'
 import SideBar from './SideBar'
+import Header from './Header'
 
-const { Header, Content } = Layout
+const { Content } = Layout
 
 const Wrapper = styled(Layout)`
     min-height: 100vh;
@@ -14,9 +15,6 @@ const Wrapper = styled(Layout)`
         padding: 8px;
         height: 100%;
         overflow-y: auto;
-    }
-
-    .site-layout .site-layout-background {
         background: #fff;
     }
 
@@ -30,9 +28,9 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <Wrapper>
             <SideBar />
-            <Layout className="site-layout">
-                <Header className="site-layout-background" />
-                <Content className="main-content site-layout-background">
+            <Layout>
+                <Header />
+                <Content className="main-content">
                     {children}
                 </Content>
             </Layout>

@@ -1,4 +1,5 @@
-import { accessToken, baseURL } from '@api/base'
+import { accessToken } from '@api/base'
+import { baseURL } from '@app/constants'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 
 export const commonApi = createApi({
