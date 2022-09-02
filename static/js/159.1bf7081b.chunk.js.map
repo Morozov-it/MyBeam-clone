@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/159.1bf7081b.chunk.js","mappings":"gIAQA,UANc,WACV,OACI,kCAEP,C","sources":["pages/contracts/Deals.tsx"],"sourcesContent":["import React from 'react'\r\n\r\nconst Deals = () => {\r\n    return (\r\n        <div>Deals</div>\r\n    )\r\n}\r\n\r\nexport default Deals"],"names":[],"sourceRoot":""}

@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/293.621e8191.chunk.js","mappings":"iIAQA,UANuB,WACnB,OACI,iCAEP,C","sources":["pages/Home.tsx"],"sourcesContent":["import React from 'react'\r\n\r\nconst Home: React.FC = () => {\r\n    return (\r\n        <div>Home</div>\r\n    )\r\n}\r\n\r\nexport default Home"],"names":[],"sourceRoot":""}

@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/Morozov-it/MyBeam-clone.git/static/css/main.3cbb52a1.css",
+    "main.js": "/Morozov-it/MyBeam-clone.git/static/js/main.ff2c8b95.js",
+    "static/js/293.621e8191.chunk.js": "/Morozov-it/MyBeam-clone.git/static/js/293.621e8191.chunk.js",
+    "static/js/159.1bf7081b.chunk.js": "/Morozov-it/MyBeam-clone.git/static/js/159.1bf7081b.chunk.js",
+    "static/js/619.cd1373c7.chunk.js": "/Morozov-it/MyBeam-clone.git/static/js/619.cd1373c7.chunk.js",
+    "static/js/41.3ae6e560.chunk.js": "/Morozov-it/MyBeam-clone.git/static/js/41.3ae6e560.chunk.js",
+    "static/js/413.ee57f493.chunk.js": "/Morozov-it/MyBeam-clone.git/static/js/413.ee57f493.chunk.js",
+    "index.html": "/Morozov-it/MyBeam-clone.git/index.html",
+    "main.3cbb52a1.css.map": "/Morozov-it/MyBeam-clone.git/static/css/main.3cbb52a1.css.map",
+    "main.ff2c8b95.js.map": "/Morozov-it/MyBeam-clone.git/static/js/main.ff2c8b95.js.map",
+    "293.621e8191.chunk.js.map": "/Morozov-it/MyBeam-clone.git/static/js/293.621e8191.chunk.js.map",
+    "159.1bf7081b.chunk.js.map": "/Morozov-it/MyBeam-clone.git/static/js/159.1bf7081b.chunk.js.map",
+    "619.cd1373c7.chunk.js.map": "/Morozov-it/MyBeam-clone.git/static/js/619.cd1373c7.chunk.js.map",
+    "41.3ae6e560.chunk.js.map": "/Morozov-it/MyBeam-clone.git/static/js/41.3ae6e560.chunk.js.map",
+    "413.ee57f493.chunk.js.map": "/Morozov-it/MyBeam-clone.git/static/js/413.ee57f493.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3cbb52a1.css",
+    "static/js/main.ff2c8b95.js"
+  ]
+}

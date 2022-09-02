@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/41.3ae6e560.chunk.js","mappings":"gIAQA,UANmB,WACf,OACI,uCAEP,C","sources":["pages/contracts/Operations.tsx"],"sourcesContent":["import React from 'react'\r\n\r\nconst Operations = () => {\r\n    return (\r\n        <div>Operations</div>\r\n    )\r\n}\r\n\r\nexport default Operations"],"names":[],"sourceRoot":""}
