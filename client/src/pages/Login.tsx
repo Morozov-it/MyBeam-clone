@@ -2,8 +2,9 @@ import React, { useCallback, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined, LoginOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Form, Input, Modal, Typography } from 'antd'
+import { Button, Checkbox, Form, Input, Typography } from 'antd'
 import { AxiosError } from 'axios'
+import logo from '@app/images/logo.png'
 import { Routes } from '@app/routes'
 import PageLayout from '@components/layout/PageLayout'
 import { useActions } from '@store/store'
@@ -18,6 +19,11 @@ const Wrapper = styled.div`
     margin: 0 10px;
     box-shadow: 1px 1px 10px black;
     border-radius: 2px;
+
+    .title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
     .form-item, .form-button {
         width: 100%;
@@ -73,6 +79,9 @@ const Login: React.FC = () => {
     return (
         <PageLayout>
             <Wrapper>
+                <h1 className="title">
+                    <img src={logo} alt="logo" />
+                </h1>
                 <Form<FormValues>
                     autoComplete="off"
                     initialValues={{ remember: true }}

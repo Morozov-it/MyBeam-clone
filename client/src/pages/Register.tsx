@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons'
 import { Button, Form, Input, Modal, Typography } from 'antd'
 import { AxiosError } from 'axios'
+import logo from '@app/images/logo.png'
 import { Routes } from '@app/routes'
 import PageLayout from '@components/layout/PageLayout'
 import { register } from '@api/user'
@@ -22,6 +23,11 @@ const Wrapper = styled.div`
     margin: 0 10px;
     box-shadow: 1px 1px 10px black;
     border-radius: 2px;
+
+    .title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
     .form-item, .form-button {
         width: 100%;
@@ -69,6 +75,9 @@ const Register: React.FC = () => {
     return (
         <PageLayout>
             <Wrapper>
+                <h1 className="title">
+                    <img src={logo} alt="logo" />
+                </h1>
                 <Form<FormValues>
                     autoComplete="off"
                     initialValues={{ remember: true }}

@@ -1,30 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
-import img from '@app/images/process-develop.gif'
+import { Button, Result } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import { Routes } from '@app/routes'
 
 const Wrapper = styled.div`
-    /* position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%); */
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-
-    img {
-        width: 395px;
-        height: 285px;
-    }
 `
 
-const PageInDevelopment = () => {
+const PageInDevelopment: React.FC = () => {
+    const navigate = useNavigate()
     return (
         <Wrapper>
-            <img src={img} alt="in development" />
-            <h1>Страница находится в разработке</h1>
+            <Result
+                status="500"
+                title="Страница находится в разработке"
+                extra={<Button
+                    onClick={() => navigate(Routes.HOME)}
+                    type="primary">Главная</Button>}
+            />
         </Wrapper>
     )
 }
