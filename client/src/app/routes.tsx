@@ -16,7 +16,7 @@ import Login from "@pages/Login"
 import Register from "@pages/Register"
 
 const Home = lazy(() => import('../pages/Home'))
-const Deals = lazy(() => import('../pages/contracts/Deals'))
+const Deals = lazy(() => import('../pages/contracts/deals/page'))
 const Customers = lazy(() => import('../pages/contracts/Customers'))
 const Operations = lazy(() => import('../pages/contracts/Operations'))
 const UserSettings = lazy(() => import('../pages/UserSettings'))
