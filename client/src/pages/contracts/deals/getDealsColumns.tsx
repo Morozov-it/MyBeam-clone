@@ -1,8 +1,9 @@
 import React from 'react'
-import { CustomColumnType } from "@components/shared/smartTable/types"
-import { Deal, SubjectDealType, StatusDealType } from "@models/deals"
 import { ColumnFilterItem } from 'antd/lib/table/interface'
 import { Checkbox, Tag, Tooltip } from 'antd'
+import moment from 'moment'
+import { CustomColumnType } from "@components/shared/smartTable/types"
+import { Deal, SubjectDealType, StatusDealType } from "@models/deals"
 import { Customer } from '@models/customers'
 
 const subjectFilters: ColumnFilterItem[] = [
@@ -73,7 +74,7 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         key: 'contract_date',
         customFilter: 'date-picker',
         render: (value) => (!!value ? value?.format('L') : '-'),
-        sorter: (a, b) => a.contract_date?.diff(b.contract_date ?? 0) ?? 0,
+        sorter: (a, b) => moment(a.contract_date).diff(b.contract_date),
     },
     {
         title: 'Дата окончания',
@@ -81,7 +82,7 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         key: 'end_date',
         customFilter: 'date-picker',
         render: (value) => (!!value ? value?.format('L') : '-'),
-        sorter: (a, b) => a.end_date?.diff(b.end_date ?? 0) ?? 0,
+        sorter: (a, b) => moment(a.end_date).diff(b.end_date),
     },
     {
         title: '№ договора в счете',
@@ -90,15 +91,15 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         render: (_, record) => <Checkbox checked={record.include_into_count} />
     },
     {
+        title: 'Адрес объекта в счете',
+        dataIndex: 'address_into_count',
+        key: 'address_into_count',
+        render: (_, record) => <Checkbox checked={record.address_into_count} />
+    },
+    {
         title: 'Наименование в 1С',
         dataIndex: 'name_1c',
         key: 'name_1c',
-        customFilter: 'search',
-    },
-    {
-        title: 'Адрес объекта в счете',
-        dataIndex: 'address',
-        key: 'address',
         customFilter: 'search',
     },
     {

@@ -35,7 +35,7 @@ const RememberModal: React.FC<Props> = ({ isModalVisible, hideModal }) => {
     return (
         <Modal
             title="Сброс пароля"
-            visible={isModalVisible}
+            open={isModalVisible}
             onOk={onOk}
             confirmLoading={modalLoading}
             onCancel={onCancel}

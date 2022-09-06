@@ -1,4 +1,3 @@
-import { Moment } from 'moment'
 import { User } from "./user"
 
 export type TypeOfDoc = 'deal' | 'customer' | 'operation'
@@ -10,7 +9,7 @@ export interface BaseDocFields {
     type: TypeOfDoc
     deleted: boolean
     created_by: User
-    created_date: Moment
+    created_date: string
     updated_by: User | null
-    updated_date: Moment | null
+    updated_date: string | null
 }

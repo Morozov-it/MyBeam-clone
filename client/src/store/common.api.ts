@@ -1,6 +1,6 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 import { accessToken } from '@api/base'
 import { baseURL } from '@app/constants'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 
 export const commonApi = createApi({
     reducerPath: 'api',
@@ -13,7 +13,7 @@ export const commonApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['Contacts', 'User'],
+    tagTypes: ['Deals', 'Customers', 'Operations', 'User'],
     endpoints: _ => ({}),
     //keepUnusedDataFor: 1,
 })
