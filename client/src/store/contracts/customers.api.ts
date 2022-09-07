@@ -3,10 +3,9 @@ import { commonApi } from "@store/common.api"
 
 export const customersApi = commonApi.injectEndpoints({
     endpoints: build => ({
-        fetchCustomers: build.query<Customer[], number | undefined>({
-            query: (userId) => ({
-                url: '/customers',
-                params: !!userId ? `created_by.id=${userId}` : {},
+        fetchCustomers: build.query<Customer[], { userId?: number }>({
+            query: ({ userId }) => ({
+                url: `/customers${!!userId ? '?created_by.id=' + userId : ''}`,
             }),
             providesTags: (result) =>
                 result
@@ -36,7 +35,7 @@ export const customersApi = commonApi.injectEndpoints({
                 queryFulfilled
                     .then((data) => {
                         dispatch(
-                            customersApi.util.updateQueryData('fetchCustomers', userId, draft => {
+                            customersApi.util.updateQueryData('fetchCustomers', { userId }, draft => {
                                 let customer = draft.find(customer => customer.id === updated.id)
                                 !!customer && Object.assign(customer, updated)
                             })

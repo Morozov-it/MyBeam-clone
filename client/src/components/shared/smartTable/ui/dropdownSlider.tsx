@@ -52,7 +52,7 @@ export const DropdownSlider = ({
                 max={max}
                 step={step}
                 range={{ draggableTrack: true }}
-                tipFormatter={formatter}
+                tooltip={{ formatter }}
                 marks={marks}
                 value={value}
                 onChange={(value: [number, number]) => setValue([...value])}

@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
-import { accessToken } from '@api/base'
-import { baseURL } from '@app/constants'
+import { baseURL, STORAGE_TOKEN_KEY } from '@app/constants'
 
 export const commonApi = createApi({
     reducerPath: 'api',
@@ -8,7 +7,7 @@ export const commonApi = createApi({
         baseUrl: baseURL,
         prepareHeaders: headers => {
             headers.set('Content-Type', 'application/json')
-            headers.set('Authorization', accessToken)
+            headers.set('Authorization', 'Bearer ' + localStorage.getItem(STORAGE_TOKEN_KEY || ''))
 
             return headers
         },

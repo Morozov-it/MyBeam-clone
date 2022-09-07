@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DeleteOutlined, FileAddOutlined } from '@ant-design/icons'
-import { Button, Drawer, Form, Space, Typography } from 'antd'
+import { Alert, Button, Drawer, Form, Popconfirm, Space, Typography } from 'antd'
 import moment, { isMoment } from 'moment'
 import SmartTable from '@components/shared/smartTable'
 import { Deal } from '@models/deals'
@@ -9,6 +10,9 @@ import { getDealsColumns } from './getDealsColumns'
 import useWindowSize from '@utils/hooks/useWindowSize'
 import { useAppSelector } from '@store/store'
 import CreateDealForm from './CreateDealForm'
+import { useCreateDealMutation, useDeleteDealMutation, useLazyFetchDealsQuery } from '@store/contracts/deals.api'
+import { UserFilter } from '@models/contracts'
+import { UserSelect } from '@components/shared/controllers'
 
 const Wrapper = styled.div`
     display: flex;
@@ -19,30 +23,43 @@ const Wrapper = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
     }
 `
 
 const DealsPage: React.FC = () => {
     const { id, email, name } = useAppSelector((state) => state.user)
     const { width } = useWindowSize()
+    const [filter, setFilter] = useState<UserFilter>('all')
+    const params = useCallback(() => filter === 'user' ? { userId: id } : {}, [filter])
+    const [fetchDeals, { data: deals, isFetching, isLoading, error }] = useLazyFetchDealsQuery()
+    const [createDeal, { isLoading: createDealLoading, error: createDealError }] = useCreateDealMutation()
+    const [deleteDeal, { isLoading: deleteDealLoading, error: deleteDealError }] = useDeleteDealMutation()
 
+    useEffect(() => {
+        fetchDeals(params())
+    }, [params])
+
+    //Drawer
     const [openDrawer, setOpenDrawer] = useState<boolean>(false)
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-
     const showDrawer = useCallback(() => setOpenDrawer(true), [])
     const closeDrawer = useCallback(() => setOpenDrawer(false), [])
 
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    // Table
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+    const onSelectChange = useCallback((newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys)
-    }
+    }, [])
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange,
     }
 
+    //Form
     const [form] = Form.useForm<Partial<Deal>>()
     const onFormReset = useCallback(() => form.resetFields(), [form])
-    const onCreateDeal = (values: Partial<Deal>) => {
+    const onCreateDeal = useCallback((values: Partial<Deal>) => {
         const data = {} as Omit<Deal, 'id'>
         (Object.keys(values) as Array<keyof Deal>).forEach((key) => {
             if (isMoment(values[key])) {
@@ -59,29 +76,61 @@ const DealsPage: React.FC = () => {
         data.created_date = moment().toISOString()
         data.updated_by = null
         data.updated_date = null
-        console.log(data)
-    }
+        createDeal(data)
+            .unwrap()
+            .then(() => {
+                closeDrawer()
+                onFormReset()
+            })
+    }, [email, id, name])
+
+    const onDeleteDeal = useCallback((id: number) => deleteDeal(id), []) 
+    const onGroupDelete = useCallback(() => {
+        Promise.all(selectedRowKeys.map((id) => onDeleteDeal(Number(id)).unwrap()))
+            .then(() => {
+                setSelectedRowKeys([])
+                fetchDeals(params())
+            })
+    }, [selectedRowKeys])
 
     return (
         <Wrapper>
             <div className='toolbar'>
-                <Space>
+                <Space wrap>
                     <Button onClick={() => showDrawer()}>
                         <FileAddOutlined />
                         <span>Создать</span>
                     </Button>
-                    <Button>
-                        <DeleteOutlined />
-                        <span>Удалить</span>
-                    </Button>
+                    <Popconfirm
+                        disabled={!selectedRowKeys.length}
+                        placement="bottom"
+                        title="Вы точно хотите это удалить?"
+                        onConfirm={onGroupDelete}
+                        okText="Да"
+                        cancelText="Нет"
+                    >
+                        <Button
+                            loading={deleteDealLoading}
+                            disabled={!selectedRowKeys.length}>
+                            <DeleteOutlined />
+                            <span>Удалить</span>
+                        </Button>
+                    </Popconfirm>
                 </Space>
-                <Typography.Title level={5}>Количество элементов</Typography.Title>
+                <Space wrap>
+                    <UserSelect defaultValue={filter} style={{ width: 155 }} onChange={(value) => setFilter(value)} />
+                    <Typography.Title level={5}>Количество элементов: {deals?.length}</Typography.Title>
+                </Space>
             </div>
             <SmartTable<Deal>
                 columns={getDealsColumns()}
-                dataSource={[]}
+                dataSource={deals ?? []}
                 rowSelection={rowSelection}
+                loading={isFetching || isLoading}
             />
+            {!!error && <Alert message={JSON.stringify(error)} type="error" />}
+            {!!deleteDealError && <Alert message={JSON.stringify(deleteDealError)} type="error" />}
+
             <Drawer
                 title="Создать договор"
                 placement="right"
@@ -96,6 +145,8 @@ const DealsPage: React.FC = () => {
                     form={form}
                     onFinish={onCreateDeal}
                     onReset={onFormReset}
+                    loading={createDealLoading}
+                    error={createDealError && JSON.stringify(createDealError)}
                 />
             </Drawer>
         </Wrapper>

@@ -2,6 +2,13 @@ import { User } from "./user"
 
 export type TypeOfDoc = 'deal' | 'customer' | 'operation'
 
+export type UserFilter = 'all' | 'user'
+
+export enum UserFilterSelect {
+    all = 'Все',
+    user = 'Созданные мной'
+}
+
 export interface BaseDocFields {
     id: number
     name: string

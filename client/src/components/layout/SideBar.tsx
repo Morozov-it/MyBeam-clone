@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { authRoutes, Routes } from '@app/routes'
 import { getMenuItem } from '@utils/getMenuItem'
+import useWindowSize from '@utils/hooks/useWindowSize'
 
 const Wrapper = styled(Layout.Sider)`
     .logo {
@@ -20,6 +21,7 @@ const Wrapper = styled(Layout.Sider)`
 `
 
 const SideBar: React.FC = () => {
+    const { width } = useWindowSize()
     const sideLinks = useRef(authRoutes.slice(2))
     const [selectedKeys, setSelectedKeys] = useState<string[]>([])
     const [collapsed, setCollapsed] = useState<boolean>(true)
@@ -28,7 +30,7 @@ const SideBar: React.FC = () => {
     return (
         <Wrapper
             collapsible
-            collapsed={collapsed}
+            collapsed={collapsed || width < 470}
             onCollapse={(value) => setCollapsed(value)}
         >
             <div className='logo'>

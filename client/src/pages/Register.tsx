@@ -66,7 +66,10 @@ const Register: React.FC = () => {
             const response = await register({ name, email, password })
             confirm(response.data.user.name as string)
         } catch (e) {
-            setError((e as AxiosError)?.response?.data as string)
+            const err = e as AxiosError
+            err.response?.data
+                ? setError(JSON.stringify(err.response.data))
+                : setError(err.message)
         } finally {
             setLoading(false)
         }

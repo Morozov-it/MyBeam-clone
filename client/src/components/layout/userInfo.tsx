@@ -12,7 +12,6 @@ const UserInfo: React.FC = () => {
 
     const logOut = () => {
         logout()
-        localStorage.clear()
         navigate(Routes.LOGIN)
     }
 

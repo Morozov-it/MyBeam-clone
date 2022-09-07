@@ -1,13 +1,17 @@
 import { Deal } from "@models/deals"
 import { commonApi } from "@store/common.api"
+import { userActions } from "@store/user/user.slice"
 
 export const dealsApi = commonApi.injectEndpoints({
     endpoints: build => ({
-        fetchDeals: build.query<Deal[], number | undefined>({
-            query: (userId) => ({
-                url: '/deals',
-                params: !!userId ? `created_by.id=${userId}` : {},
+        fetchDeals: build.query<Deal[], { userId?: number | null }>({
+            query: ({ userId }) => ({
+                url: `/deals${!!userId ? '?created_by.id=' + userId : ''}`,
             }),
+            async onQueryStarted(params, { dispatch, queryFulfilled }) {
+                queryFulfilled.then((data) => {})
+                    .catch((data) => data.error.status === 401 && dispatch(userActions.logout()))
+            },
             providesTags: (result) =>
                 result
                 ? [
@@ -22,8 +26,8 @@ export const dealsApi = commonApi.injectEndpoints({
                 method: 'POST',
                 body: newDeal,
             }),
-            //refetch contacts
-            invalidatesTags: [{ type: 'Deals', id: 'LIST' }],
+            //refetch
+            invalidatesTags: (result, error, arg) => !error ? [{ type: 'Deals', id: 'LIST' }] : [],
         }),
         updateDeal: build.mutation<Deal, { updated: Deal, userId?: number}>({
             query: ({ updated }) => ({
@@ -36,7 +40,7 @@ export const dealsApi = commonApi.injectEndpoints({
                 queryFulfilled
                     .then((data) => {
                         dispatch(
-                            dealsApi.util.updateQueryData('fetchDeals', userId, draft => {
+                            dealsApi.util.updateQueryData('fetchDeals', { userId }, draft => {
                                 let deal = draft.find(deal => deal.id === updated.id)
                                 !!deal && Object.assign(deal, updated)
                             })
@@ -52,7 +56,6 @@ export const dealsApi = commonApi.injectEndpoints({
                 url: `/deals/${id}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (result, error, id) => [{ type: 'Deals', id }],
         }),
     }),
 })
@@ -62,4 +65,5 @@ export const {
     useDeleteDealMutation,
     useFetchDealsQuery,
     useUpdateDealMutation,
+    useLazyFetchDealsQuery,
 } = dealsApi

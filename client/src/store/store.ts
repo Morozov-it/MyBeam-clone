@@ -3,6 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { setupListeners } from "@reduxjs/toolkit/dist/query"
 import { userActions, userReducer } from './user/user.slice'
 import { commonApi } from './common.api'
+//import { authMiddleware } from './authMiddleware'
 
 const actions = {
     ...userActions,
@@ -13,11 +14,10 @@ export const store = configureStore({
         user: userReducer,
         [commonApi.reducerPath]: commonApi.reducer,
     },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: false,
-        }
-        ).concat(commonApi.middleware)
+    middleware: (getDefaultMiddleware) => 
+        getDefaultMiddleware({ serializableCheck: false })
+            .concat(commonApi.middleware)
+            //.concat(authMiddleware)
 })
 
 //enable refetchOnMount and refetchOnReconnect behaviors

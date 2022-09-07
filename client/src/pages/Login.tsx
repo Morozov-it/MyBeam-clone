@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined, LoginOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Form, Input, Typography } from 'antd'
+import { Alert, Button, Checkbox, Form, Input } from 'antd'
 import { AxiosError } from 'axios'
 import logo from '@app/images/logo.png'
 import { Routes } from '@app/routes'
@@ -58,8 +58,6 @@ const Login: React.FC = () => {
     const showModal = useCallback(() => setIsModalVisible(true), [])
     const hideModal = useCallback(() => setIsModalVisible(false), [])
 
-    
-
     const onFinish = async ({ email, password, remember }: FormValues) => {
         setError(null)
         setLoading(true)
@@ -70,7 +68,10 @@ const Login: React.FC = () => {
             remember && localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(response.data.user))
             navigate(Routes.HOME)
         } catch (e) {
-            setError((e as AxiosError)?.response?.data as string)
+            const err = e as AxiosError
+            err.response?.data
+                ? setError(JSON.stringify(err.response.data))
+                : setError(err.message)
         } finally {
             setLoading(false)
         }
@@ -106,7 +107,7 @@ const Login: React.FC = () => {
                         />
                     </Form.Item>
 
-                    {!!error && <Typography.Text type="danger">{error}</Typography.Text>}
+                    {!!error && <Alert message={error} type="error" />}
 
                     <div className='form-item remember'>
                         <Form.Item name="remember" valuePropName="checked">

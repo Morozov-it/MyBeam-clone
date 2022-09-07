@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { 
+    Alert,
     Button, 
     Checkbox, 
     DatePicker, 
@@ -9,15 +10,19 @@ import {
     Space,
 } from 'antd'
 import { DataSelect, RubInput, StatusSelect, SubjectSelect } from '@components/shared/controllers'
+import { useFetchCustomersQuery } from '@store/contracts/customers.api'
 
 interface Props<T> {
     form: FormInstance<T>
     onReset: () => void
     onFinish: (values: T) => void
-    catalog?: any[]
+    loading: boolean
+    error?: string
 }
 
-const CreateDealForm = <T,>({ form, onFinish, onReset, catalog }: Props<T>) => {
+const CreateDealForm = <T,>({ form, onFinish, onReset, loading, error }: Props<T>) => {
+    const { data: customers } = useFetchCustomersQuery({})
+
     const formItemLayout = useMemo(() => ({
         labelCol: {
             xs: { span: 24 },
@@ -74,7 +79,7 @@ const CreateDealForm = <T,>({ form, onFinish, onReset, catalog }: Props<T>) => {
                 <Input />
             </Form.Item>
             <Form.Item name="customers" label="Заказчики">
-                <DataSelect data={catalog ?? []}  />
+                <DataSelect data={customers ?? []}  />
             </Form.Item>
             <Form.Item name="price" label="Цена договора">
                 <RubInput />
@@ -97,9 +102,14 @@ const CreateDealForm = <T,>({ form, onFinish, onReset, catalog }: Props<T>) => {
             <Form.Item name="comments" label="Комментарии">
                 <Input.TextArea />
             </Form.Item>
+            {!!error &&
+                <Form.Item {...tailFormItemLayout}>
+                    <Alert message={error} type="error" />
+                </Form.Item>
+            }
             <Form.Item {...tailFormItemLayout}>
                 <Space>
-                    <Button type="primary" htmlType="submit">
+                    <Button loading={loading} type="primary" htmlType="submit">
                         Создать
                     </Button>
                     <Button htmlType="reset">

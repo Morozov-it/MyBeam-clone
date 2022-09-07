@@ -21,6 +21,7 @@ export const userSlice = createSlice({
             state.id = action.payload.id
         },
         logout: (state) => {
+            localStorage.clear()
             state.isAuth = false
             state.name = null
             state.email = null
