@@ -30,7 +30,7 @@ const SideBar: React.FC = () => {
     return (
         <Wrapper
             collapsible
-            collapsed={collapsed || width < 470}
+            collapsed={collapsed || width < 500}
             onCollapse={(value) => setCollapsed(value)}
         >
             <div className='logo'>

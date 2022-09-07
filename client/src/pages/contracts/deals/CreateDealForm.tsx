@@ -10,7 +10,6 @@ import {
     Space,
 } from 'antd'
 import { DataSelect, RubInput, StatusSelect, SubjectSelect } from '@components/shared/controllers'
-import { useFetchCustomersQuery } from '@store/contracts/customers.api'
 
 interface Props<T> {
     form: FormInstance<T>
@@ -18,11 +17,10 @@ interface Props<T> {
     onFinish: (values: T) => void
     loading: boolean
     error?: string
+    catalog?: any[]
 }
 
-const CreateDealForm = <T,>({ form, onFinish, onReset, loading, error }: Props<T>) => {
-    const { data: customers } = useFetchCustomersQuery({})
-
+const CreateDealForm = <T,>({ form, onFinish, onReset, loading, error, catalog }: Props<T>) => {
     const formItemLayout = useMemo(() => ({
         labelCol: {
             xs: { span: 24 },
@@ -79,7 +77,7 @@ const CreateDealForm = <T,>({ form, onFinish, onReset, loading, error }: Props<T
                 <Input />
             </Form.Item>
             <Form.Item name="customers" label="Заказчики">
-                <DataSelect data={customers ?? []}  />
+                <DataSelect data={catalog ?? []}  />
             </Form.Item>
             <Form.Item name="price" label="Цена договора">
                 <RubInput />

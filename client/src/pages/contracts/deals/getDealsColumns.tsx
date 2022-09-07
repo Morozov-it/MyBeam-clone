@@ -26,6 +26,8 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         key: 'name',
         customFilter: 'search',
         align: 'center',
+        fixed: 'left',
+        width: 200,
     },
     {
         title: 'Номер',
@@ -33,6 +35,8 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         key: 'number',
         customFilter: 'search',
         align: 'center',
+        width: 120,
+        responsive: ['sm'],
     },
     {
         title: 'Компания',
@@ -41,6 +45,8 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         customFilter: 'search',
         sorter: (a, b) => a.company?.localeCompare(b.company ?? '') ?? 0,
         align: 'center',
+        width: 150,
+        responsive: ['sm'],
     },
     {
         title: 'Предмет договора',
@@ -51,13 +57,8 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         sorter: (a, b) => a.subject?.localeCompare(b.subject ?? '') ?? 0,
         render: (_, record) => record.subject && SubjectDealType[record.subject],
         align: 'center',
-    },
-    {
-        title: 'Автопродление',
-        dataIndex: 'auto_prolongation',
-        key: 'auto_prolongation',
-        render: (_, record) => <Checkbox checked={record.auto_prolongation} />,
-        align: 'center',
+        width: 150,
+        responsive: ['md'],
     },
     {
         title: 'Статус',
@@ -68,6 +69,8 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         sorter: (a, b) => a.status?.localeCompare(b.status ?? '') ?? 0,
         render: (_, record) => record.status && StatusDealType[record.status],
         align: 'center',
+        width: 150,
+        responsive: ['md'],
     },
     {
         title: 'Цена договора',
@@ -78,6 +81,8 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         sorter: (a, b) => (a.price ?? 0) - (b.price ?? 0),
         render: (value) => parseBigValue(value, 3) + ' ₽',
         align: 'center',
+        width: 130,
+        responsive: ['lg'],
     },
     {
         title: 'Дата подписания',
@@ -87,6 +92,8 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         render: (value) => (!!value ? moment(value).format('L') : '-'),
         sorter: (a, b) => moment(a.contract_date).diff(b.contract_date),
         align: 'center',
+        width: 150,
+        responsive: ['lg'],
     },
     {
         title: 'Дата окончания',
@@ -96,20 +103,35 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         render: (value) => (!!value ? moment(value).format('L') : '-'),
         sorter: (a, b) => moment(a.end_date).diff(b.end_date),
         align: 'center',
+        width: 150,
+        responsive: ['lg'],
     },
     {
-        title: '№ договора в счете',
+        title: <Tooltip title={'Автоматическое продление срока действия договора'}>Пролонгация</Tooltip>,
+        dataIndex: 'auto_prolongation',
+        key: 'auto_prolongation',
+        render: (_, record) => <Checkbox checked={record.auto_prolongation} />,
+        align: 'center',
+        width: 130,
+        responsive: ['xl'],
+    },
+    {
+        title: <Tooltip title={'Указание номера договора в счете'}>Номер договора</Tooltip>,
         dataIndex: 'include_into_count',
         key: 'include_into_count',
         render: (_, record) => <Checkbox checked={record.include_into_count} />,
         align: 'center',
+        width: 130,
+        responsive: ['xl'],
     },
     {
-        title: 'Адрес объекта в счете',
+        title: <Tooltip title={'Указание адреса объекта в счете'}>Адрес объекта</Tooltip>,
         dataIndex: 'address_into_count',
         key: 'address_into_count',
         render: (_, record) => <Checkbox checked={record.address_into_count} />,
         align: 'center',
+        width: 130,
+        responsive: ['xl'],
     },
     {
         title: 'Наименование в 1С',
@@ -117,6 +139,8 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         key: 'name_1c',
         customFilter: 'search',
         align: 'center',
+        width: 150,
+        responsive: ['xl'],
     },
     {
         title: 'Заказчики',
@@ -137,5 +161,7 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
             </>
         ),
         align: 'center',
+        width: 200,
+        responsive: ['xl'],
     },
 ])

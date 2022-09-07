@@ -13,6 +13,7 @@ import CreateDealForm from './CreateDealForm'
 import { useCreateDealMutation, useDeleteDealMutation, useLazyFetchDealsQuery } from '@store/contracts/deals.api'
 import { UserFilter } from '@models/contracts'
 import { UserSelect } from '@components/shared/controllers'
+import { useFetchCustomersQuery } from '@store/contracts/customers.api'
 
 const Wrapper = styled.div`
     display: flex;
@@ -33,6 +34,7 @@ const DealsPage: React.FC = () => {
     const { width } = useWindowSize()
     const [filter, setFilter] = useState<UserFilter>('all')
     const params = useCallback(() => filter === 'user' ? { userId: id } : {}, [filter])
+    const { data: customers } = useFetchCustomersQuery({})
     const [fetchDeals, { data: deals, isFetching, isLoading, error }] = useLazyFetchDealsQuery()
     const [createDeal, { isLoading: createDealLoading, error: createDealError }] = useCreateDealMutation()
     const [deleteDeal, { isLoading: deleteDealLoading, error: deleteDealError }] = useDeleteDealMutation()
@@ -123,10 +125,11 @@ const DealsPage: React.FC = () => {
                 </Space>
             </div>
             <SmartTable<Deal>
-                columns={getDealsColumns()}
+                columns={getDealsColumns(customers)}
                 dataSource={deals ?? []}
                 rowSelection={rowSelection}
                 loading={isFetching || isLoading}
+                scroll={{ x: 'max-content' }}
             />
             {!!error && <Alert message={JSON.stringify(error)} type="error" />}
             {!!deleteDealError && <Alert message={JSON.stringify(deleteDealError)} type="error" />}
@@ -147,6 +150,7 @@ const DealsPage: React.FC = () => {
                     onReset={onFormReset}
                     loading={createDealLoading}
                     error={createDealError && JSON.stringify(createDealError)}
+                    catalog={customers}
                 />
             </Drawer>
         </Wrapper>
