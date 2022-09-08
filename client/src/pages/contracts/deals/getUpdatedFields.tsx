@@ -1,0 +1,128 @@
+import React from 'react'
+import { Checkbox, DatePicker, FormItemProps, Input } from "antd"
+import moment from 'moment'
+import { RubInput, StatusSelect, SubjectSelect } from '@components/shared/controllers'
+import CustomersSelect from '@components/contracts/CustomersSelect'
+
+const getUpdatedFields = (): (FormItemProps & { key: React.Key })[] => [
+    {
+        key: "name",
+        name: "name",
+        label: "Название",
+        rules: [{ required: true }],
+        children: <Input />
+    },
+    {
+        key: "number",
+        name: "number",
+        label: "Номер",
+        rules: [{ required: true }],
+        children: <Input />
+    },
+    {
+        key: "company",
+        name: "company",
+        label: "Компания",
+        rules: [{ required: true }],
+        children: <Input />
+    },
+    {
+        key: "subject",
+        name: "subject",
+        label: "Предмет договора",
+        children: <SubjectSelect />
+    },
+    {
+        key: "status",
+        name: "status",
+        label: "Статус",
+        children: <StatusSelect />
+    },
+    {
+        key: "name_1c",
+        name: "name_1c",
+        label: "Наименование в 1С",
+        children: <Input />
+    },
+    {
+        key: "customers",
+        name: "customers",
+        label: "Заказчики",
+        children: <CustomersSelect   />
+    },
+    {
+        key: "price",
+        name: "price",
+        label: "Цена договора",
+        children: <RubInput />
+    },
+    {
+        key: "contract_date",
+        name: "contract_date",
+        label: "Дата подписания договора",
+        children: <DatePicker format={'L'} />,
+        getValueProps: (date: string) =>  ({ value: !!date ? moment(date) : undefined }),
+    },
+    {
+        key: "end_date",
+        name: "end_date",
+        label: "Дата окончания договора",
+        children: <DatePicker format={'L'} />,
+        getValueProps: (date: string) =>  ({ value: !!date ? moment(date) : undefined }),
+    },
+    {
+        key: "auto_prolongation",
+        name: "auto_prolongation",
+        label: "Автопролонгация",
+        valuePropName: "checked",
+        children: <Checkbox />,
+    },
+    {
+        key: "include_into_count",
+        name: "include_into_count",
+        label: "№ договора в счетe",
+        valuePropName: "checked",
+        children: <Checkbox />,
+    },
+    {
+        key: "address_into_count",
+        name: "address_into_count",
+        label: "Aдрес объекта в счетe",
+        valuePropName: "checked",
+        children: <Checkbox />,
+    },
+    {
+        key: "comments",
+        name: "comments",
+        label: "Комментарии",
+        children: <Input.TextArea />
+    },
+    {
+        key: "created_by",
+        name: ["created_by", "name"],
+        label: "Кем создано",
+        children: <Input disabled />
+    },
+    {
+        key: "created_date",
+        name: "created_date",
+        label: "Когда создано",
+        children: <DatePicker format={'L LT'} disabled />,
+        getValueProps: (date: string) =>  ({ value: !!date ? moment(date) : undefined }),
+    },
+    {
+        key: "updated_by",
+        name: ["updated_by", "name"],
+        label: "Кем обновлено",
+        children: <Input disabled />
+    },
+    {
+        key: "updated_date",
+        name: "updated_date",
+        label: "Когда обновлено",
+        children: <DatePicker format={'LT'} disabled />,
+        getValueProps: (date: string) =>  ({ value: !!date ? moment(date) : undefined }),
+    },
+]
+
+export default getUpdatedFields

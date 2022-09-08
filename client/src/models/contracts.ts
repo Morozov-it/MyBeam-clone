@@ -1,12 +1,26 @@
+import { UploadFile } from "antd"
 import { User } from "./user"
 
 export type TypeOfDoc = 'deal' | 'customer' | 'operation'
-
 export type UserFilter = 'all' | 'user'
+export type ChangeType = 'create' | 'update' | 'delete'
 
 export enum UserFilterSelect {
     all = 'Все',
     user = 'Созданные мной'
+}
+
+export enum ChangeTypes {
+    create = 'Создание',
+    update = 'Обновление',
+    delete = 'Удаление'
+}
+
+export interface HistoryLog {
+    who: User
+    when: string
+    change_type: ChangeType
+    what: string | null
 }
 
 export interface BaseDocFields {
@@ -19,4 +33,6 @@ export interface BaseDocFields {
     created_date: string
     updated_by: User | null
     updated_date: string | null
+    history_log: HistoryLog[]
+    attachments: UploadFile[] | null
 }

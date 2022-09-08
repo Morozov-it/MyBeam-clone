@@ -1,7 +1,7 @@
 import { DeleteOutlined, FileAddOutlined } from '@ant-design/icons'
 import { UserSelect } from '@components/shared/controllers'
 import { UserFilter } from '@models/contracts'
-import { Button, Popconfirm, Space, Typography } from 'antd'
+import { Button, Popconfirm, Space } from 'antd'
 import React from 'react'
 
 interface Props {
@@ -11,17 +11,15 @@ interface Props {
     onDelete: () => void
     filter: UserFilter
     onChangeFilter: (value: UserFilter) => void
-    items?: number
 }
 
-const ContractsToolbar: React.FC<Props> = ({
+const Toolbar: React.FC<Props> = ({
     onOpenCreate,
     deleteLoading,
     deleteDisable,
     onDelete,
     filter,
     onChangeFilter,
-    items
 }) => {
     return (
         <div className="toolbar">
@@ -46,12 +44,9 @@ const ContractsToolbar: React.FC<Props> = ({
                     </Button>
                 </Popconfirm>
             </Space>
-            <Space wrap>
-                <UserSelect defaultValue={filter} style={{ width: 155 }} onChange={onChangeFilter} />
-                <Typography.Title level={5}>Всего элементов: {items}</Typography.Title>
-            </Space>
+            <UserSelect defaultValue={filter} style={{ width: 155 }} onChange={onChangeFilter} />
         </div>
     )
 }
 
-export default React.memo(ContractsToolbar)
+export default React.memo(Toolbar)

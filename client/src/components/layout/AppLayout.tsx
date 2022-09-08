@@ -7,14 +7,14 @@ import Header from './Header'
 const { Content } = Layout
 
 const Wrapper = styled(Layout)`
-    min-height: 100vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 
     .main-content {
         margin: 8px;
         padding: 8px;
         height: 100%;
-        overflow-y: auto;
         background: #fff;
     }
 

@@ -1,25 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react'
 import { Alert, Drawer } from 'antd'
-import SelectedPageWrapper from '@components/contracts/SelectedPageWrapper'
-import SmartTable from '@components/shared/smartTable'
 import { Deal } from '@models/deals'
-import { getDealsColumns } from './getDealsColumns'
-import useWindowSize from '@utils/hooks/useWindowSize'
-import { useAppSelector } from '@store/store'
-import { useDeleteDealMutation, useLazyFetchDealsQuery } from '@store/contracts/deals.api'
 import { UserFilter } from '@models/contracts'
-import { useFetchCustomersQuery } from '@store/contracts/customers.api'
-import ContractsToolbar from '@components/contracts/ContractsToolbar'
-import CreateDealForm from './CreateDealForm'
-import ViewDealForm from './ViewDealForm'
+import { useUser } from '@utils/hooks/useUser'
+import useWindowSize from '@utils/hooks/useWindowSize'
+import { useDeleteDealMutation, useLazyFetchDealsQuery } from '@store/contracts/deals.api'
+import CreateForm from './CreateForm'
+import getDealsColumns from './getDealsColumns'
+import SmartTable from '@components/shared/smartTable'
+import PageWrapper from '@components/contracts/PageWrapper'
+import Toolbar from '@components/contracts/Toolbar'
+import ViewTabs from '@components/contracts/ViewTabs'
+import ViewEditForm from './ViewEditForm'
 
 const DealsPage: React.FC = () => {
-    const user = useAppSelector((state) => state.user)
+    const user = useUser()
     const { width } = useWindowSize()
 
+    //Editing
+    const [edit, setEdit] = useState<boolean>(true)
+    const onEdit = useCallback(() => setEdit(false), [])
+    const offEdit = useCallback(() => setEdit(true), [])
+
+    //Tabs
+    const [activeKey, setActiveKey] = useState<string>('1')
+    const toggleActiveKey = useCallback((key: string) => setActiveKey(key), [])
+
     //Queries
-    const { data: customers } = useFetchCustomersQuery({})
     const [fetchDeals, { data: deals, isFetching, isLoading, error }] = useLazyFetchDealsQuery()
     const [deleteDeal, { isLoading: deleteDealLoading, error: deleteDealError }] = useDeleteDealMutation()
 
@@ -63,33 +71,55 @@ const DealsPage: React.FC = () => {
 
     return (
         <>
-            <SelectedPageWrapper selectedItem={!!selectedItem} width={width}>
+            <PageWrapper selectedItem={!!selectedItem} width={width}>
                 <section className="main-section">
-                    <ContractsToolbar
+                    <Toolbar
                         deleteDisable={!selectedRowKeys.length}
                         deleteLoading={deleteDealLoading}
                         filter={filter}
                         onChangeFilter={onChangeFilter}
                         onOpenCreate={showDrawer}
                         onDelete={onGroupDelete}
-                        items={deals?.length}
                     />
                     <SmartTable<Deal>
-                        columns={getDealsColumns(customers)}
+                        columns={getDealsColumns()}
                         dataSource={deals ?? []}
                         rowSelection={rowSelection}
                         loading={isFetching || isLoading}
-                        scroll={{ x: 'max-content' }}
+                        scroll={{ x: 'max-content', y: 660 }}
                         onRow={(record) => ({ onClick: () => setSelectedItem(record)})}
                     />
                     {!!error && <Alert message={JSON.stringify(error)} type="error" />}
                     {!!deleteDealError && <Alert message={JSON.stringify(deleteDealError)} type="error" />}
                 </section>
-                <ViewDealForm
-                    selected={selectedItem}
+                <ViewTabs
+                    isAttachments={!!selectedItem?.attachments?.length}
+                    edit={edit}
+                    onEdit={onEdit}
+                    offEdit={offEdit}
+                    activeKey={activeKey}
+                    onChange={toggleActiveKey}
                     onClose={resetSelectedItem}
+                    items={[
+                        {
+                            key: '1',
+                            label: 'Основные данные',
+                            children: <ViewEditForm
+                                edit={edit}
+                                onEdit={onEdit}
+                                offEdit={offEdit}
+                                selected={selectedItem}
+                                width={width}
+                            />
+                        },
+                        {
+                            key: '2',
+                            label: 'История',
+                            children: <div>{JSON.stringify(selectedItem?.history_log)}</div>
+                        },
+                    ]}
                 />
-            </SelectedPageWrapper>
+            </PageWrapper>
             <Drawer
                 title="Создать договор"
                 placement="right"
@@ -100,10 +130,9 @@ const DealsPage: React.FC = () => {
                     : width > 800 ? width / 2 : width
                 }
             >
-                <CreateDealForm
+                <CreateForm
                     user={user}
                     closeDrawer={closeDrawer}
-                    catalog={customers}
                 />
             </Drawer>
         </>

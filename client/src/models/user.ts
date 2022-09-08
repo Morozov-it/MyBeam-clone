@@ -1,7 +1,7 @@
 export interface User {
-    name: string | null
-    email: string | null
-    id: number | null
+    name: string
+    email: string
+    id: number
 }
 
 export interface UserDTO {

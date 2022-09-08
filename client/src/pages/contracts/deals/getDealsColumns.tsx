@@ -19,7 +19,7 @@ const statusFilters: ColumnFilterItem[] = [
     { text: StatusDealType.on_considering, value: 'on_considering' },
 ]
 
-export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[] => ([
+const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[] => ([
     {
         title: 'Название',
         dataIndex: 'name',
@@ -165,3 +165,5 @@ export const getDealsColumns = (customers?: Customer[]): CustomColumnType<Deal>[
         responsive: ['xl'],
     },
 ])
+
+export default getDealsColumns

@@ -3,7 +3,14 @@ import { User } from "@models/user"
 
 const user: User | null = JSON.parse(localStorage.getItem(process.env.REACT_APP_STORAGE_USER_KEY || 'user') ?? 'null')
 
-const initialState: User & { isAuth: boolean } = {
+interface InitialState {
+    isAuth: boolean
+    name: string | null
+    email: string | null
+    id: number | null
+}
+
+const initialState: InitialState = {
     isAuth: !!user,
     name: user?.name ?? null,
     email: user?.email ?? null,

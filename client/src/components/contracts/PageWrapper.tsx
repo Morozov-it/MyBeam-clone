@@ -11,7 +11,7 @@ const Wrapper = styled.div<{
 
     .main-section {
         height: 100%;
-        display: ${({ selectedItem, width }) => selectedItem && width < 755 ? 'none' : 'flex'};
+        display: ${({ selectedItem, width }) => selectedItem && width < 850 ? 'none' : 'flex'};
         flex-direction: column;
         gap: 8px;
         width: ${({ selectedItem }) => selectedItem ? '60%' : '100%'};
@@ -19,7 +19,7 @@ const Wrapper = styled.div<{
     .view-edit-section {
         height: 100%;
         display: ${({ selectedItem }) => selectedItem ? 'flex' : 'none'};
-        width: ${({ selectedItem, width }) => width < 755 ? '100%' : selectedItem ? '40%' : '0'};
+        width: ${({ selectedItem, width }) => width < 850 ? '100%' : selectedItem ? '40%' : '0'};
     }
 
     .toolbar {

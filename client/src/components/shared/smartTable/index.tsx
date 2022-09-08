@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Table as AntdTable } from 'antd'
+import { Table as AntdTable, Typography } from 'antd'
 import { TableProps } from 'antd/lib/table/Table'
 import styled from 'styled-components'
 import getTableCustomFilter from './getTableCustomFilter'
@@ -37,6 +37,14 @@ const Table = <RecordType,>({ columns, ...other }: Props<RecordType>) => {
             rowKey={'id'}
             columns={customColumns}
             bordered
+            pagination={{
+                showTotal: (total) =>
+                    <Typography.Title 
+                        style={{ margin: 0, lineHeight: '32px' }} 
+                        level={5}>Всего элементов: {total}
+                    </Typography.Title>,
+                showSizeChanger: true
+            }}
         />
     )
 }
