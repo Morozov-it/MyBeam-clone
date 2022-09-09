@@ -4,12 +4,11 @@ import { userActions } from "@store/user/user.slice"
 
 export const dealsApi = commonApi.injectEndpoints({
     endpoints: build => ({
-        //TODO: Think about separate into two different queries: allDeals & usersDeals!
-        fetchDeals: build.query<Deal[], { userId?: number | null }>({
-            query: ({ userId }) => ({
-                url: `/deals${!!userId ? '?created_by.id=' + userId : ''}`,
+        fetchDeals: build.query<Deal[], string>({
+            query: () => ({
+                url: '/deals',
             }),
-            async onQueryStarted(params, { dispatch, queryFulfilled }) {
+            onQueryStarted(_, { dispatch, queryFulfilled }) {
                 queryFulfilled.then((data) => {})
                     .catch((data) => data.error.status === 401 && dispatch(userActions.logout()))
             },
@@ -21,28 +20,34 @@ export const dealsApi = commonApi.injectEndpoints({
                 method: 'POST',
                 body: newDeal,
             }),
-            //refetch
-            invalidatesTags: (result, error, arg) => !error ? [{ type: 'Deals', id: 'LIST' }] : [],
+            //pessimistic update - after fulfilled query
+            onQueryStarted(_, { dispatch, queryFulfilled }) {
+                queryFulfilled
+                    .then(({ data }) => {
+                        dispatch(
+                            dealsApi.util.updateQueryData('fetchDeals', '', draft => {
+                                draft.push(data)
+                            })
+                        )
+                    })
+            },
         }),
-        updateDeal: build.mutation<Deal, { updated: Deal, userId?: number | null}>({
-            query: ({ updated }) => ({
+        updateDeal: build.mutation<Deal, Deal>({
+            query: (updated) => ({
                 url: `/deals/${updated.id}`,
                 method: 'PUT',
                 body: updated,
             }),
             //pessimistic update - after fulfilled query
-            async onQueryStarted({ userId }, { dispatch, queryFulfilled }) {
+            onQueryStarted(_, { dispatch, queryFulfilled }) {
                 queryFulfilled
                     .then(({ data }) => {
                         dispatch(
-                            dealsApi.util.updateQueryData('fetchDeals', { userId }, draft => {
+                            dealsApi.util.updateQueryData('fetchDeals', '', draft => {
                                 let deal = draft.find(deal => deal.id === data.id)
                                 !!deal && Object.assign(deal, data)
                             })
                         )
-                    })
-                    .catch(() => {
-                        console.error('dealsApi updateDeal error')
                     })
             },
         }),
@@ -51,6 +56,8 @@ export const dealsApi = commonApi.injectEndpoints({
                 url: `/deals/${id}`,
                 method: 'DELETE',
             }),
+            //refetch
+            invalidatesTags: (result, error, arg) => !error ? [{ type: 'Deals', id: 'LIST' }] : [],
         }),
     }),
 })

@@ -1,10 +1,10 @@
 import React from 'react'
-import { Checkbox, DatePicker, FormItemProps, Input } from "antd"
+import { Checkbox, DatePicker, FormInstance, FormItemProps, Input } from "antd"
 import moment from 'moment'
 import { RubInput, StatusSelect, SubjectSelect } from '@components/shared/controllers'
 import CustomersSelect from '@components/contracts/CustomersSelect'
 
-const getUpdatedFields = (): (FormItemProps & { key: React.Key })[] => [
+const getUpdatedFields = (form: FormInstance<any>): (FormItemProps & { key: React.Key })[] => [
     {
         key: "name",
         name: "name",
@@ -60,14 +60,18 @@ const getUpdatedFields = (): (FormItemProps & { key: React.Key })[] => [
         key: "contract_date",
         name: "contract_date",
         label: "Дата подписания договора",
-        children: <DatePicker format={'L'} />,
+        children: <DatePicker
+            onChange={(value) => form.setFieldValue('contract_date', value?.toISOString() ?? null)}
+            format={'L'} />,
         getValueProps: (date: string) =>  ({ value: !!date ? moment(date) : undefined }),
     },
     {
         key: "end_date",
         name: "end_date",
         label: "Дата окончания договора",
-        children: <DatePicker format={'L'} />,
+        children: <DatePicker
+        onChange={(value) => form.setFieldValue('end_date', value?.toISOString() ?? null)}
+            format={'L'} />,
         getValueProps: (date: string) =>  ({ value: !!date ? moment(date) : undefined }),
     },
     {

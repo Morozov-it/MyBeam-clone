@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Alert, Drawer } from 'antd'
 import { Deal } from '@models/deals'
 import { UserFilter } from '@models/contracts'
 import { useUser } from '@utils/hooks/useUser'
 import useWindowSize from '@utils/hooks/useWindowSize'
-import { useDeleteDealMutation, useLazyFetchDealsQuery } from '@store/contracts/deals.api'
+import { useDeleteDealMutation, useFetchDealsQuery } from '@store/contracts/deals.api'
 import CreateForm from './CreateForm'
 import getDealsColumns from './getDealsColumns'
 import SmartTable from '@components/shared/smartTable'
@@ -27,18 +27,26 @@ const DealsPage: React.FC = () => {
     const [activeKey, setActiveKey] = useState<string>('1')
     const toggleActiveKey = useCallback((key: string) => setActiveKey(key), [])
 
+    //Filter
+    const [filter, setFilter] = useState<UserFilter>('all')
+    const onChangeFilter = useCallback((value: UserFilter) => setFilter(value), [])
+
     //Queries
-    const [fetchDeals, { data: deals, isFetching, isLoading, error }] = useLazyFetchDealsQuery()
+    const { data: deals, isFetching, isLoading, error } = useFetchDealsQuery('')
+    const filteredDeals = useMemo(() => {
+        if (!!deals?.length) {
+            return filter === 'user'
+                ? deals?.filter((deal) => deal.created_by.id === user.id)
+                : deals
+        } else {
+            return []
+        }
+    }, [filter, deals])
     const [deleteDeal, { isLoading: deleteDealLoading, error: deleteDealError }] = useDeleteDealMutation()
 
     //SelectedItem
     const [selectedItem, setSelectedItem] = useState<Deal | null>(null)
     const resetSelectedItem = useCallback(() => setSelectedItem(null), [])
-
-    //Filter
-    const [filter, setFilter] = useState<UserFilter>('all')
-    const params = useCallback(() => filter === 'user' ? { userId: user.id } : {}, [filter])
-    const onChangeFilter = useCallback((value: UserFilter) => setFilter(value), [])
 
     //Drawer
     const [openDrawer, setOpenDrawer] = useState<boolean>(false)
@@ -61,13 +69,8 @@ const DealsPage: React.FC = () => {
         Promise.all(selectedRowKeys.map((id) => onDeleteDeal(Number(id)).unwrap()))
             .then(() => {
                 setSelectedRowKeys([])
-                fetchDeals(params())
             })
     }, [selectedRowKeys])
-
-    useEffect(() => {
-        fetchDeals(params())
-    }, [params])
 
     return (
         <>
@@ -83,7 +86,7 @@ const DealsPage: React.FC = () => {
                     />
                     <SmartTable<Deal>
                         columns={getDealsColumns()}
-                        dataSource={deals ?? []}
+                        dataSource={filteredDeals}
                         rowSelection={rowSelection}
                         loading={isFetching || isLoading}
                         scroll={{ x: 'max-content', y: height - 260 }}
@@ -110,7 +113,6 @@ const DealsPage: React.FC = () => {
                                 selected={selectedItem}
                                 width={width}
                                 user={user}
-                                filter={filter}
                             />
                         },
                         {

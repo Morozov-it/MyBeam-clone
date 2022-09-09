@@ -2,12 +2,11 @@ import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import { Alert, Button, Form, Space } from 'antd'
 import { FormLayout } from 'antd/lib/form/Form'
-import moment, { Moment } from 'moment'
+import moment from 'moment'
 import { useUpdateDealMutation } from '@store/contracts/deals.api'
 import getUpdatedFields from './getUpdatedFields'
 import { Deal } from '@models/deals'
 import { User } from '@models/user'
-import { UserFilter } from '@models/contracts'
 import { getChangedFields } from '@utils/getChangedFields'
 
 const Wrapper = styled.div`
@@ -29,14 +28,14 @@ interface Props {
     selected: Deal | null
     width: number
     user: User
-    filter: UserFilter
 }
 
-const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, width, user, filter }) => {
+const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, width, user }) => {
     const [updateDeal, { isLoading, error }] = useUpdateDealMutation()
 
     //Form
-    const fields = useMemo(() => getUpdatedFields(), [])
+    const [form] = Form.useForm()
+    const fields = useMemo(() => getUpdatedFields(form), [form])
     const formLayout = useMemo(() => {
         const w = width > 850 && width < 1100
         return {
@@ -45,19 +44,12 @@ const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, width, user, f
             layout:  w ? 'vertical' : 'horizontal' as FormLayout,
         }
     }, [width])
-    const [form] = Form.useForm()
 
     const onFinish = (values: any) => {
         const data = { ...(selected ?? {}), ...values} as Deal
         const changedFields = getChangedFields(selected ?? {}, data)
         if (!!changedFields.length) {
             const dateNow = moment().toISOString()
-            data.contract_date = !!values.contract_date
-                ? (values.contract_date as Moment).toISOString()
-                : null
-            data.end_date = !!values.end_date
-                ? (values.end_date as Moment).toISOString()
-                : null
             data.updated_by = user
             data.updated_date = dateNow
             data.history_log = [
@@ -69,7 +61,7 @@ const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, width, user, f
                     what: `Изменил поля: ${changedFields}`
                 }
             ]
-            console.log(data)
+            updateDeal(data)
         }
         offEdit()
     }
