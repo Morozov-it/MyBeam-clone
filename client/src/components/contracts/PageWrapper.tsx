@@ -7,7 +7,6 @@ const Wrapper = styled.div<{
     width: 100%;
     height: 100%;
     display: flex;
-    gap: 8px;
 
     .main-section {
         height: 100%;
@@ -15,11 +14,13 @@ const Wrapper = styled.div<{
         flex-direction: column;
         gap: 8px;
         width: ${({ selectedItem }) => selectedItem ? '60%' : '100%'};
+        padding-right: 8px;
     }
     .view-edit-section {
         height: 100%;
         display: ${({ selectedItem }) => selectedItem ? 'flex' : 'none'};
         width: ${({ selectedItem, width }) => width < 850 ? '100%' : selectedItem ? '40%' : '0'};
+        padding-left: 8px;
     }
 
     .toolbar {
@@ -28,12 +29,6 @@ const Wrapper = styled.div<{
         justify-content: space-between;
         gap: 8px;
         flex-wrap: wrap;
-    }
-
-    .ant-divider-vertical {
-        height: 100%;
-        margin: 0 8px 0 0;
-        border-left: 2px solid rgba(0, 0, 0, 0.06);
     }
 `
 

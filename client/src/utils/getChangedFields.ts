@@ -7,5 +7,5 @@ export const getChangedFields = (obj1: IndexedValues, obj2: IndexedValues, chang
             changedFields.push(key)
         }
     })
-    return changedFields.join(',')
+    return changedFields
 }

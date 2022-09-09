@@ -19,10 +19,11 @@ export enum ChangeTypes {
 }
 
 export interface HistoryLog {
+    id: string
     who: User
     when: string
     change_type: ChangeType
-    what: string | null
+    what: string[] | null
 }
 
 export interface BaseDocFields {

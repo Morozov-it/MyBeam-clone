@@ -6,12 +6,21 @@ import { Badge, Button, Divider, Space, Tabs, TabsProps } from 'antd'
 const Body = styled.div`
     width: 100%;
     height: 100%;
+    position: relative;
 
     .ant-tabs, 
     .ant-tabs-content,
     .ant-tabs-content-holder,
     .ant-tabs-tabpane {
         height: 100%;
+    }
+
+    .ant-divider-vertical {
+        position: absolute;
+        left: -8px;
+        height: 100%;
+        margin: 0;
+        border-left: 2px solid rgba(0, 0, 0, 0.06);
     }
 `
 
@@ -38,8 +47,8 @@ const ViewTabs: React.FC<Props> = ({
 }) => {
     return (
         <section className="view-edit-section">
-            <Divider type="vertical" />
             <Body>
+                <Divider type="vertical" />
                 <Tabs
                     activeKey={activeKey}
                     onChange={onChange}

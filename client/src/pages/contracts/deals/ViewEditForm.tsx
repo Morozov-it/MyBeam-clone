@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Alert, Button, Form, Space } from 'antd'
 import { FormLayout } from 'antd/lib/form/Form'
 import moment from 'moment'
+import { v4 } from 'uuid'
 import { useUpdateDealMutation } from '@store/contracts/deals.api'
 import getUpdatedFields from './getUpdatedFields'
 import { Deal } from '@models/deals'
@@ -26,11 +27,12 @@ interface Props {
     edit: boolean
     offEdit: () => void
     selected: Deal | null
+    changeSelectedItem: (value: Deal) => void
     width: number
     user: User
 }
 
-const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, width, user }) => {
+const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, changeSelectedItem, width, user }) => {
     const [updateDeal, { isLoading, error }] = useUpdateDealMutation()
 
     //Form
@@ -55,16 +57,22 @@ const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, width, user })
             data.history_log = [
                 ...(selected?.history_log ?? []),
                 {
+                    id: v4(),
                     who: user,
                     change_type: 'update',
                     when: dateNow,
-                    what: `Изменил поля: ${changedFields}`
+                    what: changedFields,
                 }
             ]
-            updateDeal(data)
+            updateDeal(data).unwrap().then((updated) => {
+                changeSelectedItem(updated)
+                offEdit()
+            })
+        } else {
+            offEdit()
         }
-        offEdit()
     }
+
     const onReset = () => {
         !!selected && form.setFieldsValue(selected)
         offEdit()

@@ -6,6 +6,7 @@ import {
     Space,
 } from 'antd'
 import moment, { isMoment } from 'moment'
+import { v4 } from 'uuid'
 import { useCreateDealMutation } from '@store/contracts/deals.api'
 import { Deal } from '@models/deals'
 import { User } from '@models/user'
@@ -65,6 +66,7 @@ const CreateDealForm: React.FC<Props> = ({ user, closeDrawer }) => {
         data.updated_date = null
         data.attachments = null
         data.history_log = [{
+            id: v4(),
             who: user,
             change_type: 'create',
             what: null,

@@ -1,4 +1,4 @@
-import { BaseDocFields } from "./contracts"
+import { BaseDocFields, IndexedValues } from "./contracts"
 import { Customer } from "./customers"
 
 export enum SubjectDealType {
@@ -11,6 +11,23 @@ export enum StatusDealType {
     sighed = 'Подписан',
     terminated = 'Расторгнут',
     on_considering = 'На рассмотрении'
+}
+
+export const FieldNames: IndexedValues = {
+    name: 'Название',
+    comments: 'Комментарии',
+    number: 'Номер',
+    status: 'Статус',
+    auto_prolongation: 'Автопролонгация',
+    include_into_count: '№ договора в счетe',
+    address_into_count: 'Aдрес объекта в счетe',
+    company: 'Компания',
+    subject: 'Предмет договора',
+    name_1c: 'Наименование в 1С',
+    price: 'Цена договора',
+    customers: 'Заказчики',
+    contract_date: 'Дата подписания договора',
+    end_date: 'Дата окончания договора',
 }
 
 export interface Deal extends BaseDocFields {
