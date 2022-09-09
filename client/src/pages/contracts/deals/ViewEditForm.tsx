@@ -2,25 +2,37 @@ import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import { Alert, Button, Form, Space } from 'antd'
 import { FormLayout } from 'antd/lib/form/Form'
+import moment, { Moment } from 'moment'
 import { useUpdateDealMutation } from '@store/contracts/deals.api'
 import getUpdatedFields from './getUpdatedFields'
 import { Deal } from '@models/deals'
+import { User } from '@models/user'
+import { UserFilter } from '@models/contracts'
+import { getChangedFields } from '@utils/getChangedFields'
 
 const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     overflow-y: auto;
+
+    .ant-form-item {
+        margin-bottom: 12px;
+    }
+    .ant-form-item-label {
+        padding: 0;
+    }
 `
 
 interface Props {
     edit: boolean
     offEdit: () => void
-    onEdit: () => void
     selected: Deal | null
     width: number
+    user: User
+    filter: UserFilter
 }
 
-const ViewEditForm: React.FC<Props> = ({ edit, offEdit, onEdit, selected, width }) => {
+const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, width, user, filter }) => {
     const [updateDeal, { isLoading, error }] = useUpdateDealMutation()
 
     //Form
@@ -33,15 +45,36 @@ const ViewEditForm: React.FC<Props> = ({ edit, offEdit, onEdit, selected, width 
             layout:  w ? 'vertical' : 'horizontal' as FormLayout,
         }
     }, [width])
-    const [form] = Form.useForm<Partial<Deal>>()
-    const onFinish = async (values: Partial<Deal>) => {
-        try {
-            console.log(values)
-            offEdit()
-        } catch {}
+    const [form] = Form.useForm()
+
+    const onFinish = (values: any) => {
+        const data = { ...(selected ?? {}), ...values} as Deal
+        const changedFields = getChangedFields(selected ?? {}, data)
+        if (!!changedFields.length) {
+            const dateNow = moment().toISOString()
+            data.contract_date = !!values.contract_date
+                ? (values.contract_date as Moment).toISOString()
+                : null
+            data.end_date = !!values.end_date
+                ? (values.end_date as Moment).toISOString()
+                : null
+            data.updated_by = user
+            data.updated_date = dateNow
+            data.history_log = [
+                ...(selected?.history_log ?? []),
+                {
+                    who: user,
+                    change_type: 'update',
+                    when: dateNow,
+                    what: `Изменил поля: ${changedFields}`
+                }
+            ]
+            console.log(data)
+        }
+        offEdit()
     }
     const onReset = () => {
-        form.resetFields()
+        !!selected && form.setFieldsValue(selected)
         offEdit()
     }
 

@@ -45,7 +45,7 @@ const ViewTabs: React.FC<Props> = ({
                     onChange={onChange}
                     tabBarExtraContent={{
                         right: activeKey === '1'
-                            ? <Space>
+                            ? <Space wrap>
                                 <Button
                                     disabled={!edit}
                                     onClick={onEdit}

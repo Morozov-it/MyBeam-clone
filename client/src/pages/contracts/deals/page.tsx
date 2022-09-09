@@ -16,7 +16,7 @@ import ViewEditForm from './ViewEditForm'
 
 const DealsPage: React.FC = () => {
     const user = useUser()
-    const { width } = useWindowSize()
+    const { width, height } = useWindowSize()
 
     //Editing
     const [edit, setEdit] = useState<boolean>(true)
@@ -86,7 +86,7 @@ const DealsPage: React.FC = () => {
                         dataSource={deals ?? []}
                         rowSelection={rowSelection}
                         loading={isFetching || isLoading}
-                        scroll={{ x: 'max-content', y: 660 }}
+                        scroll={{ x: 'max-content', y: height - 260 }}
                         onRow={(record) => ({ onClick: () => setSelectedItem(record)})}
                     />
                     {!!error && <Alert message={JSON.stringify(error)} type="error" />}
@@ -106,10 +106,11 @@ const DealsPage: React.FC = () => {
                             label: 'Основные данные',
                             children: <ViewEditForm
                                 edit={edit}
-                                onEdit={onEdit}
                                 offEdit={offEdit}
                                 selected={selectedItem}
                                 width={width}
+                                user={user}
+                                filter={filter}
                             />
                         },
                         {

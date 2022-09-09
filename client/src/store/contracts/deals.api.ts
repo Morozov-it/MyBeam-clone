@@ -4,6 +4,7 @@ import { userActions } from "@store/user/user.slice"
 
 export const dealsApi = commonApi.injectEndpoints({
     endpoints: build => ({
+        //TODO: Think about separate into two different queries: allDeals & usersDeals!
         fetchDeals: build.query<Deal[], { userId?: number | null }>({
             query: ({ userId }) => ({
                 url: `/deals${!!userId ? '?created_by.id=' + userId : ''}`,
@@ -12,13 +13,7 @@ export const dealsApi = commonApi.injectEndpoints({
                 queryFulfilled.then((data) => {})
                     .catch((data) => data.error.status === 401 && dispatch(userActions.logout()))
             },
-            providesTags: (result) =>
-                result
-                ? [
-                    ...result.map(({ id }) => ({ type: 'Deals' as const, id })),
-                    { type: 'Deals', id: 'LIST' },
-                ]
-                : [{ type: 'Deals', id: 'LIST' }],
+            providesTags: [{ type: 'Deals', id: 'LIST' }],
         }),
         createDeal: build.mutation<Deal, Omit<Deal, 'id'>>({
             query: (newDeal) => ({
@@ -29,20 +24,20 @@ export const dealsApi = commonApi.injectEndpoints({
             //refetch
             invalidatesTags: (result, error, arg) => !error ? [{ type: 'Deals', id: 'LIST' }] : [],
         }),
-        updateDeal: build.mutation<Deal, { updated: Deal, userId?: number}>({
+        updateDeal: build.mutation<Deal, { updated: Deal, userId?: number | null}>({
             query: ({ updated }) => ({
                 url: `/deals/${updated.id}`,
                 method: 'PUT',
                 body: updated,
             }),
             //pessimistic update - after fulfilled query
-            async onQueryStarted({ updated, userId }, { dispatch, queryFulfilled }) {
+            async onQueryStarted({ userId }, { dispatch, queryFulfilled }) {
                 queryFulfilled
-                    .then((data) => {
+                    .then(({ data }) => {
                         dispatch(
                             dealsApi.util.updateQueryData('fetchDeals', { userId }, draft => {
-                                let deal = draft.find(deal => deal.id === updated.id)
-                                !!deal && Object.assign(deal, updated)
+                                let deal = draft.find(deal => deal.id === data.id)
+                                !!deal && Object.assign(deal, data)
                             })
                         )
                     })

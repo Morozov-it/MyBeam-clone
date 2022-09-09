@@ -97,32 +97,6 @@ const getUpdatedFields = (): (FormItemProps & { key: React.Key })[] => [
         label: "Комментарии",
         children: <Input.TextArea />
     },
-    {
-        key: "created_by",
-        name: ["created_by", "name"],
-        label: "Кем создано",
-        children: <Input disabled />
-    },
-    {
-        key: "created_date",
-        name: "created_date",
-        label: "Когда создано",
-        children: <DatePicker format={'L LT'} disabled />,
-        getValueProps: (date: string) =>  ({ value: !!date ? moment(date) : undefined }),
-    },
-    {
-        key: "updated_by",
-        name: ["updated_by", "name"],
-        label: "Кем обновлено",
-        children: <Input disabled />
-    },
-    {
-        key: "updated_date",
-        name: "updated_date",
-        label: "Когда обновлено",
-        children: <DatePicker format={'LT'} disabled />,
-        getValueProps: (date: string) =>  ({ value: !!date ? moment(date) : undefined }),
-    },
 ]
 
 export default getUpdatedFields

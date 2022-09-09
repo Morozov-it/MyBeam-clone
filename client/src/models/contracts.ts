@@ -1,6 +1,8 @@
 import { UploadFile } from "antd"
 import { User } from "./user"
 
+export interface IndexedValues { [key: string]: any }
+
 export type TypeOfDoc = 'deal' | 'customer' | 'operation'
 export type UserFilter = 'all' | 'user'
 export type ChangeType = 'create' | 'update' | 'delete'
