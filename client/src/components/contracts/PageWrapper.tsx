@@ -1,26 +1,14 @@
 import styled from 'styled-components'
 
-const Wrapper = styled.div<{
-    width: number
-    selectedItem: boolean
-}>`
+const Wrapper = styled.div`
     width: 100%;
     height: 100%;
-    display: flex;
 
     .main-section {
         height: 100%;
-        display: ${({ selectedItem, width }) => selectedItem && width < 850 ? 'none' : 'flex'};
+        display: flex;
         flex-direction: column;
         gap: 8px;
-        width: ${({ selectedItem }) => selectedItem ? '60%' : '100%'};
-        padding-right: 8px;
-    }
-    .view-edit-section {
-        height: 100%;
-        display: ${({ selectedItem }) => selectedItem ? 'flex' : 'none'};
-        width: ${({ selectedItem, width }) => width < 850 ? '100%' : selectedItem ? '40%' : '0'};
-        padding-left: 8px;
     }
 
     .toolbar {

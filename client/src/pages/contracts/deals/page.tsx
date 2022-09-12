@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo, useState } from 'react'
 import { Alert, Drawer, Typography } from 'antd'
+import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
+import { useDeleteDealMutation, useFetchDealsQuery } from '@store/contracts/deals.api'
 import { Deal } from '@models/deals'
 import { UserFilter } from '@models/contracts'
 import { useUser } from '@utils/hooks/useUser'
 import useWindowSize from '@utils/hooks/useWindowSize'
-import { useDeleteDealMutation, useFetchDealsQuery } from '@store/contracts/deals.api'
 import CreateForm from './CreateForm'
 import getDealsColumns from './getDealsColumns'
 import SmartTable from '@components/shared/smartTable'
@@ -76,9 +77,9 @@ const DealsPage: React.FC = () => {
     }, [selectedRowKeys])
 
     return (
-        <>
-            <PageWrapper selectedItem={!!selectedItem} width={width}>
-                <section className="main-section">
+        <PageWrapper>
+            <ReflexContainer orientation="vertical" windowResizeAware style={{ display: width > 750 ? 'flex' : 'block' }}>
+                {!(!!selectedItem && width < 750) && <ReflexElement className="left-pane main-section" minSize={385}>
                     <Toolbar
                         deleteDisable={!selectedRowKeys.length}
                         deleteLoading={deleteDealLoading}
@@ -105,36 +106,39 @@ const DealsPage: React.FC = () => {
                     />
                     {!!error && <Alert message={JSON.stringify(error)} type="error" />}
                     {!!deleteDealError && <Alert message={JSON.stringify(deleteDealError)} type="error" />}
-                </section>
-                <ViewTabs
-                    isAttachments={!!selectedItem?.attachments?.length}
-                    edit={edit}
-                    onEdit={onEdit}
-                    offEdit={offEdit}
-                    activeKey={activeKey}
-                    onChange={toggleActiveKey}
-                    onClose={resetSelectedItem}
-                    items={[
-                        {
-                            key: '1',
-                            label: 'Основные данные',
-                            children: <ViewEditForm
-                                edit={edit}
-                                offEdit={offEdit}
-                                selected={selectedItem}
-                                changeSelectedItem={changeSelectedItem}
-                                width={width}
-                                user={user}
-                            />
-                        },
-                        {
-                            key: '2',
-                            label: 'История',
-                            children: <HistoryTable data={selectedItem?.history_log ?? []}/>
-                        },
-                    ]}
-                />
-            </PageWrapper>
+                </ReflexElement>}
+                {!!selectedItem && width > 750 && <ReflexSplitter style={{ margin: '0 8px' }} propagate />}
+                {!!selectedItem && <ReflexElement className="right-pane" minSize={380} size={600} >
+                    <ViewTabs
+                        isAttachments={!!selectedItem?.attachments?.length}
+                        edit={edit}
+                        onEdit={onEdit}
+                        offEdit={offEdit}
+                        activeKey={activeKey}
+                        onChange={toggleActiveKey}
+                        onClose={resetSelectedItem}
+                        items={[
+                            {
+                                key: '1',
+                                label: 'Основные данные',
+                                children: <ViewEditForm
+                                    edit={edit}
+                                    offEdit={offEdit}
+                                    selected={selectedItem}
+                                    changeSelectedItem={changeSelectedItem}
+                                    width={width}
+                                    user={user}
+                                />
+                            },
+                            {
+                                key: '2',
+                                label: 'История',
+                                children: <HistoryTable data={selectedItem?.history_log ?? []} />
+                            },
+                        ]}
+                    />
+                </ReflexElement>}
+            </ReflexContainer>
             <Drawer
                 title="Создать договор"
                 placement="right"
@@ -150,7 +154,7 @@ const DealsPage: React.FC = () => {
                     closeDrawer={closeDrawer}
                 />
             </Drawer>
-        </>
+        </PageWrapper>
     )
 }
 
