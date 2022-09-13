@@ -7,6 +7,7 @@ import { getBreadcrumbs } from '@utils/getBreadcrumbs'
 import SearchDrop from '@components/shared/SearchDrop'
 import { mergedRoutes } from '@utils/mergeRoutes'
 import UserInfo from './userInfo'
+import useWindowSize from '@utils/hooks/useWindowSize'
 
 const Wrapper = styled(Layout.Header)`
     height: fit-content;
@@ -25,6 +26,7 @@ const Wrapper = styled(Layout.Header)`
         align-items: center;
         gap: 10px;
         flex-wrap: wrap;
+        margin-left: auto;
     }
 
     .ant-breadcrumb {
@@ -33,6 +35,7 @@ const Wrapper = styled(Layout.Header)`
 `
 
 const Header: React.FC = () => {
+    const { width } = useWindowSize()
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -55,14 +58,14 @@ const Header: React.FC = () => {
                 }
             </Breadcrumb>
             <div className="header-content">
-                <SearchDrop catalog={catalog} onSelect={onSelect} />
-                <Tooltip title={'Новое окно'}>
+                {width > 760 && <SearchDrop catalog={catalog} onSelect={onSelect} />}
+                {width > 520 && <Tooltip title={'Новое окно'}>
                     <Link to={location.pathname} target="_blank">
                         <Button>
                             <WindowsOutlined />
                         </Button>
                     </Link>
-                </Tooltip>
+                </Tooltip>}
                 <UserInfo />
             </div>
         </Wrapper>
