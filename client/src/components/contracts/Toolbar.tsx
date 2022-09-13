@@ -1,8 +1,17 @@
+import React from 'react'
+import styled from 'styled-components'
+import { Button, Popconfirm, Space } from 'antd'
 import { DeleteOutlined, FileAddOutlined } from '@ant-design/icons'
 import { UserSelect } from '@components/shared/controllers'
 import { UserFilter } from '@models/contracts'
-import { Button, Popconfirm, Space } from 'antd'
-import React from 'react'
+
+const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+`
 
 interface Props {
     onOpenCreate: () => void
@@ -22,7 +31,7 @@ const Toolbar: React.FC<Props> = ({
     onChangeFilter,
 }) => {
     return (
-        <div className="toolbar">
+        <Wrapper>
             <Space wrap>
                 <Button onClick={onOpenCreate}>
                     <FileAddOutlined />
@@ -45,7 +54,7 @@ const Toolbar: React.FC<Props> = ({
                 </Popconfirm>
             </Space>
             <UserSelect defaultValue={filter} style={{ width: 155 }} onChange={onChangeFilter} />
-        </div>
+        </Wrapper>
     )
 }
 
