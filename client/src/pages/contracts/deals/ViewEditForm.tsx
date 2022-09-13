@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
-import { Alert, Button, Form, Space } from 'antd'
+import { Alert, Button, Form, message, Space } from 'antd'
 import { FormLayout } from 'antd/lib/form/Form'
 import moment from 'moment'
 import { v4 } from 'uuid'
@@ -65,6 +65,7 @@ const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, changeSelected
                 }
             ]
             updateDeal(data).unwrap().then((updated) => {
+                message.success(`Договор успешно изменен`)
                 changeSelectedItem(updated)
                 offEdit()
             })

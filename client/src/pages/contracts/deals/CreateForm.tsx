@@ -3,6 +3,7 @@ import {
     Alert,
     Button, 
     Form, 
+    message, 
     Space,
 } from 'antd'
 import moment, { isMoment } from 'moment'
@@ -75,6 +76,7 @@ const CreateDealForm: React.FC<Props> = ({ user, closeDrawer }) => {
         createDeal(data)
             .unwrap()
             .then(() => {
+                message.success(`Договор успешно создан`)
                 closeDrawer()
                 onReset()
             })

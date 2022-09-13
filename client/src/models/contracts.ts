@@ -1,4 +1,4 @@
-import { UploadFile } from "antd"
+import type { UploadFile } from 'antd/es/upload/interface'
 import { User } from "./user"
 
 export interface IndexedValues { [key: string]: any }

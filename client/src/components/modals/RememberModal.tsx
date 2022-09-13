@@ -53,4 +53,4 @@ const RememberModal: React.FC<Props> = ({ isModalVisible, hideModal }) => {
     )
 }
 
-export default RememberModal
+export default React.memo(RememberModal)

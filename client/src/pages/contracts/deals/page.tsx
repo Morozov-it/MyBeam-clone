@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo, useState } from 'react'
-import { Alert, Drawer, Typography } from 'antd'
+import { Alert, Drawer, message, Typography } from 'antd'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
 import { useDeleteDealMutation, useFetchDealsQuery } from '@store/contracts/deals.api'
 import { Deal } from '@models/deals'
@@ -15,6 +15,7 @@ import Toolbar from '@components/contracts/Toolbar'
 import ViewTabs from '@components/contracts/ViewTabs'
 import ViewEditForm from './ViewEditForm'
 import HistoryTable from './HistoryTable'
+import AttachmentsModal from '@components/modals/AttachmentsModal'
 
 const DealsPage: React.FC = () => {
     const user = useUser()
@@ -56,6 +57,11 @@ const DealsPage: React.FC = () => {
     const showDrawer = useCallback(() => setOpenDrawer(true), [])
     const closeDrawer = useCallback(() => setOpenDrawer(false), [])
 
+    //Attachments modal
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+    const showModal = useCallback(() => setIsModalVisible(true), [])
+    const hideModal = useCallback(() => setIsModalVisible(false), [])
+
     // Table
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     const onSelectChange = useCallback((newSelectedRowKeys: React.Key[]) => {
@@ -71,6 +77,7 @@ const DealsPage: React.FC = () => {
     const onGroupDelete = useCallback(() => {
         Promise.all(selectedRowKeys.map((id) => onDeleteDeal(Number(id)).unwrap()))
             .then(() => {
+                message.success(`Удаление успешно`)
                 setSelectedRowKeys([])
                 resetSelectedItem()
             })
@@ -111,6 +118,7 @@ const DealsPage: React.FC = () => {
                 {!!selectedItem && <ReflexElement className="right-pane" minSize={380} size={600} >
                     <ViewTabs
                         isAttachments={!!selectedItem?.attachments?.length}
+                        openAttachments={showModal}
                         edit={edit}
                         onEdit={onEdit}
                         offEdit={offEdit}
@@ -154,6 +162,11 @@ const DealsPage: React.FC = () => {
                     closeDrawer={closeDrawer}
                 />
             </Drawer>
+            <AttachmentsModal
+                attachments={selectedItem?.attachments}
+                isModalVisible={isModalVisible}
+                hideModal={hideModal}
+            />
         </PageWrapper>
     )
 }

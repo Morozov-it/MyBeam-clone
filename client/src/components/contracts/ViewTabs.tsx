@@ -26,6 +26,7 @@ const Wrapper = styled(Tabs)`
 interface Props {
     activeKey: string
     isAttachments: boolean
+    openAttachments: () => void
     edit: boolean
     onEdit: () => void
     offEdit: () => void
@@ -40,6 +41,7 @@ const ViewTabs: React.FC<Props> = ({
     onEdit,
     offEdit,
     isAttachments,
+    openAttachments,
     onChange,
     onClose,
     items
@@ -66,7 +68,7 @@ const ViewTabs: React.FC<Props> = ({
                             dot
                             style={{ display: isAttachments ? 'block' : 'none' }}
                         >
-                            <Button>
+                            <Button onClick={openAttachments}>
                                 <PaperClipOutlined />
                             </Button>
                         </Badge>
