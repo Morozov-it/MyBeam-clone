@@ -1,0 +1,30 @@
+import React from 'react'
+import styled from 'styled-components'
+import SmartTable from '@components/smartTable'
+import { HistoryLog } from '@models/base'
+import getHistoryColumns from '../lib/getHistoryColumns'
+
+const Wrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+`
+
+interface Props {
+    data: HistoryLog[]
+}
+
+const HistoryTable: React.FC<Props> = ({ data }) => {
+    return (
+        <Wrapper>
+            <SmartTable<HistoryLog>
+                columns={getHistoryColumns()}
+                dataSource={data}
+                pagination={false}
+                scroll={{ x: 600 }}
+            />
+        </Wrapper>
+    )
+}
+
+export default React.memo(HistoryTable)

@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import AppLayout from '@components/layout/AppLayout'
-import Spinner from '@components/shared/Spinner'
+import Spinner from '@components/layout/Spinner'
 import { useAppSelector } from '@store/store'
 import { mergedRoutes } from '@utils/mergeRoutes'
 import { publicRoutes } from './routes'

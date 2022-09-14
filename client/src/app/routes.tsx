@@ -16,9 +16,9 @@ import Login from "@pages/Login"
 import Register from "@pages/Register"
 
 const Home = lazy(() => import('../pages/Home'))
-const Deals = lazy(() => import('../pages/contracts/deals/page'))
-const Customers = lazy(() => import('../pages/contracts/Customers'))
-const Operations = lazy(() => import('../pages/contracts/Operations'))
+const Deals = lazy(() => import('../pages/contracts/deals'))
+const Customers = lazy(() => import('../pages/contracts/customers'))
+const Operations = lazy(() => import('../pages/contracts/operations'))
 const UserSettings = lazy(() => import('../pages/UserSettings'))
 
 export enum Routes {

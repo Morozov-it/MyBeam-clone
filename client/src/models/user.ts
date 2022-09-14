@@ -14,3 +14,10 @@ export interface ResponseUserApi {
     accessToken: string
     user: User
 }
+
+export type UserFilter = 'all' | 'user'
+
+export enum UserFilterSelect {
+    all = 'Все',
+    user = 'Созданные мной'
+}

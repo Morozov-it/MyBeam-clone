@@ -1,4 +1,4 @@
-import { Deal } from "@models/deals"
+import { Deal } from "@models/contracts/deals"
 import { commonApi } from "@store/common.api"
 import { userActions } from "@store/user/user.slice"
 

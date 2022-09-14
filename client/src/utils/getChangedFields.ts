@@ -1,5 +1,5 @@
 import equal from 'deep-equal'
-import { IndexedValues } from "@models/contracts"
+import { IndexedValues } from "@models/base"
 
 export const getChangedFields = (obj1: IndexedValues, obj2: IndexedValues, changedFields: string[] = []) => {
     Object.keys(obj1).forEach((key) => {

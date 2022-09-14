@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { Breadcrumb, Button, Layout, Tooltip } from 'antd'
 import { CaretRightOutlined, WindowsOutlined } from '@ant-design/icons'
 import { getBreadcrumbs } from '@utils/getBreadcrumbs'
-import SearchDrop from '@components/shared/SearchDrop'
+import SearchDrop from '@components/controllers/SearchDrop'
 import { mergedRoutes } from '@utils/mergeRoutes'
-import UserInfo from './userInfo'
+import UserInfo from './UserInfo'
 import useWindowSize from '@utils/hooks/useWindowSize'
 
 const Wrapper = styled(Layout.Header)`

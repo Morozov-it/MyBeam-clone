@@ -48,7 +48,7 @@ const AttachmentsModal: React.FC<Props> = ({ attachments, isModalVisible, hideMo
         resetFileList()
     }, [resetFileList])
 
-    console.log(fileList)
+    //console.log(fileList)
 
     return (
         <Modal
