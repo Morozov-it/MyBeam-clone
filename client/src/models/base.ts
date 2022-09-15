@@ -7,9 +7,13 @@ export type TypeOfDoc = 'deal' | 'customer' | 'operation'
 
 export type ChangeType = 'create' | 'update' | 'delete'
 
-export interface CatalogData {
+export interface Catalog {
     id: string | number
     name: string
+}
+
+export interface BaseCatalogs {
+    [key: string]: Catalog[] | undefined
 }
 
 export enum ChangeTypes {

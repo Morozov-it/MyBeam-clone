@@ -1,5 +1,2 @@
-export { default as StatusSelect } from './StatusSelect'
-export { default as SubjectSelect } from './SubjectSelect'
 export { default as RubInput } from './RubInput'
-export { default as DataSelect } from './DataSelect'
-export { default as UserSelect } from './UserSelect'
+export { default as CatalogSelect } from './CatalogSelect'

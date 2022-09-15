@@ -7,18 +7,20 @@ import {
     FormInstance, 
     FormItemProps
 } from 'antd'
+import { BaseCatalogs } from '@models/base'
 
 interface Props<T> {
-    getFields: (form: FormInstance<T>) => (FormItemProps<T> & {key: React.Key})[]
+    getFields: (form: FormInstance<T>, catalogs?: BaseCatalogs) => (FormItemProps<T> & {key: React.Key})[]
     onFinish: (values: T) => Promise<void>
     loading: boolean
     error: any
     initialValues?: Partial<T>
+    catalogs?: BaseCatalogs
 }
 
-const CreateDealForm = <T,>({ getFields, onFinish, error, loading, initialValues }: Props<T>) => {
+const CreateDealForm = <T,>({ getFields, onFinish, error, loading, initialValues, catalogs }: Props<T>) => {
     const [form] = Form.useForm<T>()
-    const fields = useMemo(() => getFields(form), [form, getFields])
+    const fields = useMemo(() => getFields(form, catalogs), [catalogs, form, getFields])
     const buttonsLayout = useMemo(() => ({
         wrapperCol: { xs: { offset: 0 }, sm: { offset: 12 } }
     }), [])

@@ -1,19 +1,20 @@
 
 import React from 'react'
 import { Select, SelectProps } from 'antd'
+import { Catalog } from '@models/base'
 
-const DataSelect: React.FC<SelectProps & { data?: Array<{ id: number, name: string }>}> = ({ data, ...props }) => {
+const CatalogSelect: React.FC<SelectProps & { catalog?: Catalog[]}> = ({ catalog, ...props }) => {
     return (
         <Select
-            {...props}
             placeholder="выбрать"
             allowClear
+            {...props}
         >
-            {data?.map((item) => (
+            {catalog?.map((item) => (
                 <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
             ))}
         </Select>
     )
 }
 
-export default React.memo(DataSelect)
+export default React.memo(CatalogSelect)

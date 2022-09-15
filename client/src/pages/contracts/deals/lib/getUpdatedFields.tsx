@@ -1,10 +1,10 @@
 import React from 'react'
 import { Checkbox, DatePicker, FormInstance, FormItemProps, Input } from "antd"
 import moment from 'moment'
-import { RubInput, StatusSelect, SubjectSelect } from '@components/controllers'
-import CustomersSelect from '@components/controllers/CustomersSelect'
+import { CatalogSelect, RubInput } from '@components/controllers'
+import { BaseCatalogs } from '@models/base'
 
-const getUpdatedFields = <T,>(form: FormInstance<T>): (FormItemProps<T> & { key: React.Key })[] => [
+const getUpdatedFields = <T,>(form: FormInstance<T>, catalogs?: BaseCatalogs): (FormItemProps<T> & { key: React.Key })[] => [
     {
         key: "name",
         name: "name",
@@ -30,14 +30,14 @@ const getUpdatedFields = <T,>(form: FormInstance<T>): (FormItemProps<T> & { key:
         key: "subject",
         name: "subject",
         label: "Предмет договора",
-        children: <SubjectSelect onChange={(value) =>
+        children: <CatalogSelect catalog={catalogs?.subjects} onChange={(value) =>
             form.setFieldValue('subject', value === undefined ? null : value)} />
     },
     {
         key: "status",
         name: "status",
         label: "Статус",
-        children: <StatusSelect onChange={(value) =>
+        children: <CatalogSelect catalog={catalogs?.statuses} onChange={(value) =>
             form.setFieldValue('status', value === undefined ? null : value)} />
     },
     {
@@ -50,7 +50,7 @@ const getUpdatedFields = <T,>(form: FormInstance<T>): (FormItemProps<T> & { key:
         key: "customers",
         name: "customers",
         label: "Заказчики",
-        children: <CustomersSelect onChange={(value) =>
+        children: <CatalogSelect catalog={catalogs?.customers} onChange={(value) =>
             form.setFieldValue('customers', value === undefined ? null : value)} />
     },
     {

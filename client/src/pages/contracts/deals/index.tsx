@@ -1,14 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from 'react'
 import { Alert, Drawer } from 'antd'
+//store
 import { useCreateDealMutation, useDeleteDealMutation, useFetchDealsQuery, useUpdateDealMutation } from '@store/contracts/deals.api'
-import { Deal } from '@models/contracts/deals'
+import { useFetchCustomersQuery } from '@store/contracts/customers.api'
+//models
+import { Deal, StatusDealType, SubjectDealType } from '@models/contracts/deals'
+import { BaseCatalogs, Catalog } from '@models/base'
+//lib & ui
 import TabsBar from './ui/TabsBar'
-import HistoryTable from './ui/HistoryTable'
+import HistoryTable from './ui/HistoryView'
 import getDealsColumns from './lib/getDealsColumns'
 import getUpdatedFields from './lib/getUpdatedFields'
 import getCreatedFields from './lib/getCreatedFields'
 import { useDealActions } from './lib/useDealActions'
+//components
 import SmartTable from '@components/smartTable'
 import AttachmentsModal from '@components/modals/AttachmentsModal'
 import PageToolbar from '@components/templates/PageToolbar'
@@ -17,6 +23,7 @@ import ViewEditForm from '@components/templates/ViewEditForm'
 import ViewTabs from '@components/templates/ViewTabs'
 import ResizeTemplate from '@components/templates/ResizeTemplate'
 import { PageWrapper } from '@components/templates/PageWrapper'
+//hooks
 import useWindowSize from '@utils/hooks/useWindowSize'
 import { useModal } from '@utils/hooks/useModal'
 import { useDrawer } from '@utils/hooks/useDrawer'
@@ -34,6 +41,18 @@ const Page: React.FC = () => {
     const [deleteDeal, { isLoading: deleteDealLoading, error: deleteDealError }] = useDeleteDealMutation()
     const [updateDeal, { isLoading: updateDealLoading, error: updateDealError }] = useUpdateDealMutation()
     const [createDeal, { isLoading: createDealLoading, error: createDealError }] = useCreateDealMutation()
+    //Catalogs
+    //TODO: change to real server catalogs
+    const { data: customers } = useFetchCustomersQuery('')
+    const catalogs: BaseCatalogs = useMemo(() => {
+        const subjects: Catalog[] = Object.entries(SubjectDealType).map(([value, name]) => ({ id: value, name }))
+        const statuses: Catalog[] = Object.entries(StatusDealType).map(([value, name]) => ({ id: value, name }))
+        return {
+            customers,
+            subjects,
+            statuses
+        }
+    }, [customers])
 
     //Table
     const {
@@ -86,12 +105,16 @@ const Page: React.FC = () => {
                 edit={edit}
                 offEdit={offEdit}
                 selected={selectedItem}
+                catalogs={catalogs}
             />
         },
         {
             key: '2',
             label: 'История',
-            children: <HistoryTable data={selectedItem?.history_log} />
+            children: <HistoryTable
+                data={selectedItem?.history_log}
+                title={selectedItem?.name}
+            />
         },
     ], [onUpdate, updateDealError, updateDealLoading, edit, selectedItem])
 
@@ -153,6 +176,7 @@ const Page: React.FC = () => {
                     error={createDealError}
                     loading={createDealLoading}
                     initialValues={createInitialValues}
+                    catalogs={catalogs}
                 />
             </Drawer>
             <AttachmentsModal

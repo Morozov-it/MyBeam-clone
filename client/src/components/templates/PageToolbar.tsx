@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { Button, Popconfirm, Space } from 'antd'
 import { DeleteOutlined, FileAddOutlined } from '@ant-design/icons'
-import { UserSelect } from '@components/controllers'
-import { UserFilter } from '@models/user'
+import { CatalogSelect } from '@components/controllers'
+import { UserFilter, UserFilterSelect } from '@models/user'
 
 const Wrapper = styled.div`
     display: flex;
@@ -32,6 +32,9 @@ const PageToolbar: React.FC<Props> = ({
     onChangeFilter,
     children
 }) => {
+    const catalog = useMemo(() =>
+        Object.entries(UserFilterSelect).map(([value, name]) => ({ id: value, name }))
+    ,[])
     return (
         <Wrapper>
             <Space wrap>
@@ -56,7 +59,13 @@ const PageToolbar: React.FC<Props> = ({
                 </Popconfirm>
                 {children}
             </Space>
-            <UserSelect defaultValue={userFilter} style={{ width: 155 }} onChange={onChangeFilter} />
+            <CatalogSelect
+                catalog={catalog}
+                defaultValue={userFilter}
+                style={{ width: 155 }}
+                onChange={onChangeFilter}
+                allowClear={false}
+            />
         </Wrapper>
     )
 }

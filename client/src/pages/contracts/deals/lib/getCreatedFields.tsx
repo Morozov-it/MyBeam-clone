@@ -2,13 +2,14 @@ import React from 'react'
 import { 
     Checkbox, 
     DatePicker, 
+    FormInstance, 
     FormItemProps, 
     Input, 
 } from 'antd'
-import { RubInput, StatusSelect, SubjectSelect } from '@components/controllers'
-import CustomersSelect from '@components/controllers/CustomersSelect'
+import { RubInput, CatalogSelect } from '@components/controllers'
+import { BaseCatalogs } from '@models/base'
 
-const getCreatedFields = <T,>(): (FormItemProps<T> & { key: React.Key })[] => [
+const getCreatedFields = <T,>(form: FormInstance<T>, catalogs?: BaseCatalogs): (FormItemProps<T> & { key: React.Key })[] => [
     {
         key: "name",
         name: "name",
@@ -34,13 +35,13 @@ const getCreatedFields = <T,>(): (FormItemProps<T> & { key: React.Key })[] => [
         key: "subject",
         name: "subject",
         label: "Предмет договора",
-        children: <SubjectSelect />
+        children: <CatalogSelect catalog={catalogs?.subjects} />
     },
     {
         key: "status",
         name: "status",
         label: "Статус",
-        children: <StatusSelect />
+        children: <CatalogSelect catalog={catalogs?.statuses} />
     },
     {
         key: "name_1c",
@@ -52,7 +53,7 @@ const getCreatedFields = <T,>(): (FormItemProps<T> & { key: React.Key })[] => [
         key: "customers",
         name: "customers",
         label: "Заказчики",
-        children: <CustomersSelect   />
+        children: <CatalogSelect catalog={catalogs?.customers} mode="multiple" />
     },
     {
         key: "price",

@@ -2,14 +2,11 @@ import React, { lazy } from "react"
 import { Navigate } from "react-router-dom"
 import { Route } from "@models/routes"
 import {
-    FileDoneOutlined,
-    FileTextOutlined,
-    ForkOutlined,
+    FileTextOutlined, 
     HomeOutlined, 
-    LoginOutlined,
-    ReadOutlined,
-    SettingOutlined,
-    UserSwitchOutlined,
+    LoginOutlined, 
+    ReadOutlined, 
+    SettingOutlined, 
 } from "@ant-design/icons"
 import PageInDevelopment from "@pages/PageInDevelopment"
 import Login from "@pages/Login"
@@ -58,21 +55,21 @@ export const authRoutes: Route[] = [
             {
                 path: Routes.CONTRACTS_DEALS,
                 element: <Deals />,
-                icon: <FileDoneOutlined />,
+                icon: null,
                 title: 'Договоры',
                 innerLinks: []
             },
             {
                 path: Routes.CONTRACTS_CUSTOMERS,
                 element: <Customers />,
-                icon: <UserSwitchOutlined />,
+                icon: null,
                 title: 'Заказчики',
                 innerLinks: []
             },
             {
                 path: Routes.CONTRACTS_OPERATIONS,
                 element: <Operations />,
-                icon: <ForkOutlined />,
+                icon: null,
                 title: 'Рабочие процессы',
                 innerLinks: []
             },

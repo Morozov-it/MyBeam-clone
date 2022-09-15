@@ -1,19 +1,18 @@
-import { Customer } from "@models/customers"
+import { Customer } from "@models/contracts/customers"
 import { commonApi } from "@store/common.api"
+import { userActions } from "@store/user/user.slice"
 
 export const customersApi = commonApi.injectEndpoints({
     endpoints: build => ({
-        fetchCustomers: build.query<Customer[], { userId?: number }>({
-            query: ({ userId }) => ({
-                url: `/customers${!!userId ? '?created_by.id=' + userId : ''}`,
+        fetchCustomers: build.query<Customer[], string>({
+            query: () => ({
+                url: '/customers',
             }),
-            providesTags: (result) =>
-                result
-                ? [
-                    ...result.map(({ id }) => ({ type: 'Customers' as const, id })),
-                    { type: 'Customers', id: 'LIST' },
-                ]
-                : [{ type: 'Customers', id: 'LIST' }],
+            onQueryStarted(_, { dispatch, queryFulfilled }) {
+                queryFulfilled.then((data) => {})
+                    .catch((data) => data.error.status === 401 && dispatch(userActions.logout()))
+            },
+            providesTags: [{ type: 'Customers', id: 'LIST' }],
         }),
         createCustomer: build.mutation<Customer, Omit<Customer, 'id'>>({
             query: (newCustomer) => ({
@@ -21,28 +20,34 @@ export const customersApi = commonApi.injectEndpoints({
                 method: 'POST',
                 body: newCustomer,
             }),
-            //refetch contacts
-            invalidatesTags: [{ type: 'Customers', id: 'LIST' }],
+            //pessimistic update - after fulfilled query
+            onQueryStarted(_, { dispatch, queryFulfilled }) {
+                queryFulfilled
+                    .then(({ data }) => {
+                        dispatch(
+                            customersApi.util.updateQueryData('fetchCustomers', '', draft => {
+                                draft.push(data)
+                            })
+                        )
+                    })
+            },
         }),
-        updateCustomer: build.mutation<Customer, { updated: Customer, userId?: number}>({
-            query: ({ updated }) => ({
+        updateCustomer: build.mutation<Customer, Customer>({
+            query: (updated) => ({
                 url: `/customers/${updated.id}`,
                 method: 'PUT',
                 body: updated,
             }),
             //pessimistic update - after fulfilled query
-            async onQueryStarted({ updated, userId }, { dispatch, queryFulfilled }) {
+            onQueryStarted(_, { dispatch, queryFulfilled }) {
                 queryFulfilled
-                    .then((data) => {
+                    .then(({ data }) => {
                         dispatch(
-                            customersApi.util.updateQueryData('fetchCustomers', { userId }, draft => {
-                                let customer = draft.find(customer => customer.id === updated.id)
-                                !!customer && Object.assign(customer, updated)
+                            customersApi.util.updateQueryData('fetchCustomers', '', draft => {
+                                let customer = draft.find(customer => customer.id === data.id)
+                                !!customer && Object.assign(customer, data)
                             })
                         )
-                    })
-                    .catch(() => {
-                        console.error('customersApi updateCustomer error')
                     })
             },
         }),
@@ -51,14 +56,16 @@ export const customersApi = commonApi.injectEndpoints({
                 url: `/customers/${id}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (result, error, id) => [{ type: 'Customers', id }],
+            //refetch
+            invalidatesTags: (result, error, arg) => !error ? [{ type: 'Customers', id: 'LIST' }] : [],
         }),
     }),
 })
 
 export const {
     useCreateCustomerMutation,
-    useUpdateCustomerMutation,
     useDeleteCustomerMutation,
-    useFetchCustomersQuery
+    useFetchCustomersQuery,
+    useUpdateCustomerMutation,
+    useLazyFetchCustomersQuery,
 } = customersApi

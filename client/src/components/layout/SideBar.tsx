@@ -24,7 +24,7 @@ const SideBar: React.FC = () => {
     const { width } = useWindowSize()
     const sideLinks = useRef(authRoutes.slice(2))
     const [selectedKeys, setSelectedKeys] = useState<string[]>([])
-    const [collapsed, setCollapsed] = useState<boolean>(true)
+    const [collapsed, setCollapsed] = useState<boolean>(false)
     const navigate = useNavigate()
 
     return (
