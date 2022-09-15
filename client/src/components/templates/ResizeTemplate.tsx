@@ -1,14 +1,14 @@
 import React from 'react'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
 
-interface Props {
+interface Props<T> {
     mainSection: React.ReactNode
     viewSection: React.ReactNode
-    selectedItem: any
+    selectedItem: T | null
     width: number
 }
 
-const ResizeTemplate: React.FC<Props> = ({ mainSection, viewSection, selectedItem, width }) => {
+const ResizeTemplate = <T,>({ mainSection, viewSection, selectedItem, width }: Props<T>) => {
     const full = width > 940
     const collapsed = width < 940
     return (
@@ -24,4 +24,4 @@ const ResizeTemplate: React.FC<Props> = ({ mainSection, viewSection, selectedIte
     )
 }
 
-export default React.memo(ResizeTemplate)
+export default React.memo(ResizeTemplate) as typeof ResizeTemplate

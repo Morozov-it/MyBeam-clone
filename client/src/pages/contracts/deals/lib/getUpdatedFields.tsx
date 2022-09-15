@@ -4,7 +4,7 @@ import moment from 'moment'
 import { RubInput, StatusSelect, SubjectSelect } from '@components/controllers'
 import CustomersSelect from '@components/controllers/CustomersSelect'
 
-const getUpdatedFields = (form: FormInstance<any>): (FormItemProps & { key: React.Key })[] => [
+const getUpdatedFields = <T,>(form: FormInstance<T>): (FormItemProps<T> & { key: React.Key })[] => [
     {
         key: "name",
         name: "name",
@@ -30,13 +30,15 @@ const getUpdatedFields = (form: FormInstance<any>): (FormItemProps & { key: Reac
         key: "subject",
         name: "subject",
         label: "Предмет договора",
-        children: <SubjectSelect />
+        children: <SubjectSelect onChange={(value) =>
+            form.setFieldValue('subject', value === undefined ? null : value)} />
     },
     {
         key: "status",
         name: "status",
         label: "Статус",
-        children: <StatusSelect />
+        children: <StatusSelect onChange={(value) =>
+            form.setFieldValue('status', value === undefined ? null : value)} />
     },
     {
         key: "name_1c",
@@ -48,7 +50,8 @@ const getUpdatedFields = (form: FormInstance<any>): (FormItemProps & { key: Reac
         key: "customers",
         name: "customers",
         label: "Заказчики",
-        children: <CustomersSelect   />
+        children: <CustomersSelect onChange={(value) =>
+            form.setFieldValue('customers', value === undefined ? null : value)} />
     },
     {
         key: "price",

@@ -40,7 +40,7 @@ export interface Deal extends BaseDocFields {
     subject: keyof typeof SubjectDealType | null
     name_1c: string | null
     price: number | null
-    customers: Customer[] | null
     contract_date: string | null
     end_date: string | null
+    customers: Customer[]
 }

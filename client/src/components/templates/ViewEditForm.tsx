@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import { Alert, Button, Form, FormInstance, FormItemProps, Space } from 'antd'
+import { RecursivePartial } from '@models/index'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -15,30 +16,30 @@ const Wrapper = styled.div`
     }
 `
 
-interface Props {
+interface Props<T> {
     edit: boolean
     offEdit: () => void
-    selected: any
-    getFields: (form: FormInstance<any>) => (FormItemProps & {key: React.Key})[]
-    onFinish: (values: any) => void
+    selected: T | null
+    getFields: (form: FormInstance<T>) => (FormItemProps<T> & {key: React.Key})[]
+    onFinish: (values: T) => void
     loading: boolean
     error: any
 }
 
-const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, getFields, onFinish, loading, error }) => {
-    const [form] = Form.useForm()
+const ViewEditForm = <T,>({ edit, offEdit, selected, getFields, onFinish, loading, error }: Props<T>) => {
+    const [form] = Form.useForm<T>()
     const fields = useMemo(() => getFields(form), [form, getFields])
     const buttonsLayout = useMemo(() => ({
         wrapperCol: { xs: { offset: 0 }, sm: { offset: 12 } }
     }), [])
 
     const onReset = () => {
-        !!selected && form.setFieldsValue(selected)
+        !!selected && form.setFieldsValue(selected as RecursivePartial<T>)
         offEdit()
     }
 
     useEffect(() => {
-        !!selected && form.setFieldsValue(selected)
+        !!selected && form.setFieldsValue(selected as RecursivePartial<T>)
     }, [form, selected])
 
     return (
@@ -77,4 +78,4 @@ const ViewEditForm: React.FC<Props> = ({ edit, offEdit, selected, getFields, onF
     )
 }
 
-export default React.memo(ViewEditForm)
+export default React.memo(ViewEditForm) as typeof ViewEditForm

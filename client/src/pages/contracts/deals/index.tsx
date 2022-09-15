@@ -11,7 +11,7 @@ import getCreatedFields from './lib/getCreatedFields'
 import { useDealActions } from './lib/useDealActions'
 import SmartTable from '@components/smartTable'
 import AttachmentsModal from '@components/modals/AttachmentsModal'
-import Toolbar from '@components/templates/Toolbar'
+import PageToolbar from '@components/templates/PageToolbar'
 import CreateForm from '@components/templates/CreateForm'
 import ViewEditForm from '@components/templates/ViewEditForm'
 import ViewTabs from '@components/templates/ViewTabs'
@@ -45,19 +45,19 @@ const Page: React.FC = () => {
         selectedRowKeys, 
         setSelectedRowKeys, 
         columns
-    } = useTable(getDealsColumns())
+    } = useTable<Deal>(getDealsColumns())
     const scroll = useMemo(() => ({ x: 'max-content', y: height - 260 }), [height])
+    //Filter
+    const { filteredEntities, userFilter, toggleFilter } = useUserFilter<Deal>(user.id, deals)
     //ViewTabs
     const { activeKey, toggleActiveKey, edit, offEdit, onEdit, onCloseTabs } = useTabs(resetSelectedItem)
-    //Filter
-    const { filter, filteredDeals, toggleFilter } = useUserFilter<Deal>(user.id, deals)
     //Drawer
     const [createDrawer, createShow, createClose] = useDrawer()
     //Attachments modal
     const [attachmentsModal, attachmentsShow, attachmentsHide] = useModal()
     //Fields
-    const updatedFields = useCallback(getUpdatedFields, [])
-    const createdFields = useCallback(getCreatedFields, [])
+    const updatedFields = useCallback(getUpdatedFields<Deal>, [])
+    const createdFields = useCallback(getCreatedFields<Deal>, [])
     //Actions
     const { createInitialValues, onCreate, onUpdate, onGroupDelete } = useDealActions({
         user,
@@ -78,7 +78,7 @@ const Page: React.FC = () => {
         {
             key: '1',
             label: 'Основные данные',
-            children: <ViewEditForm
+            children: <ViewEditForm<Deal>
                 onFinish={onUpdate}
                 getFields={updatedFields}
                 error={updateDealError}
@@ -91,28 +91,28 @@ const Page: React.FC = () => {
         {
             key: '2',
             label: 'История',
-            children: <HistoryTable data={selectedItem?.history_log ?? []} />
+            children: <HistoryTable data={selectedItem?.history_log} />
         },
     ], [onUpdate, updateDealError, updateDealLoading, edit, selectedItem])
 
     return (
         <PageWrapper>
-            <ResizeTemplate
+            <ResizeTemplate<Deal>
                 selectedItem={selectedItem}
                 width={width}
                 mainSection={
                     <div className="main-section">
-                        <Toolbar
+                        <PageToolbar
                             deleteDisable={!selectedRowKeys.length}
                             deleteLoading={deleteDealLoading}
-                            filter={filter}
+                            userFilter={userFilter}
                             onChangeFilter={toggleFilter}
                             onOpenCreate={createShow}
                             onDelete={onGroupDelete}
                         />
                         <SmartTable<Deal>
                             columns={columns}
-                            dataSource={filteredDeals}
+                            dataSource={filteredEntities}
                             rowSelection={rowSelection}
                             loading={isFetching || isLoading}
                             scroll={scroll}
@@ -147,7 +147,7 @@ const Page: React.FC = () => {
                 open={createDrawer}
                 width={width > 700 ? 530 : width}
             >
-                <CreateForm
+                <CreateForm<Deal>
                     getFields={createdFields}
                     onFinish={onCreate}
                     error={createDealError}

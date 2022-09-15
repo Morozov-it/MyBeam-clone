@@ -3,18 +3,18 @@ import { UserFilter } from "@models/user"
 import { useCallback, useMemo, useState } from "react"
 
 export const useUserFilter = <T extends BaseDocFields,>(userId: number, data?: T[]) => {
-    const [filter, setFilter] = useState<UserFilter>('all')
-    const toggleFilter = useCallback((value: UserFilter) => setFilter(value), [])
+    const [userFilter, setUserFilter] = useState<UserFilter>('all')
+    const toggleFilter = useCallback((value: UserFilter) => setUserFilter(value), [])
 
-    const filteredDeals = useMemo(() => {
+    const filteredEntities = useMemo(() => {
         if (!!data?.length) {
-            return filter === 'user'
-                ? data?.filter((deal) => deal.created_by.id === userId)
+            return userFilter === 'user'
+                ? data?.filter((entity) => entity.created_by.id === userId)
                 : data
         } else {
             return []
         }
-    }, [data, filter, userId])
+    }, [data, userFilter, userId])
 
-    return { filter, toggleFilter, filteredDeals }
+    return { userFilter, toggleFilter, filteredEntities }
 }

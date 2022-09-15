@@ -18,17 +18,19 @@ interface Props {
     deleteLoading: boolean
     deleteDisable: boolean
     onDelete: () => void
-    filter: UserFilter
+    userFilter: UserFilter
     onChangeFilter: (value: UserFilter) => void
+    children?: React.ReactNode
 }
 
-const Toolbar: React.FC<Props> = ({
+const PageToolbar: React.FC<Props> = ({
     onOpenCreate,
     deleteLoading,
     deleteDisable,
     onDelete,
-    filter,
+    userFilter,
     onChangeFilter,
+    children
 }) => {
     return (
         <Wrapper>
@@ -52,10 +54,11 @@ const Toolbar: React.FC<Props> = ({
                         <span>Удалить</span>
                     </Button>
                 </Popconfirm>
+                {children}
             </Space>
-            <UserSelect defaultValue={filter} style={{ width: 155 }} onChange={onChangeFilter} />
+            <UserSelect defaultValue={userFilter} style={{ width: 155 }} onChange={onChangeFilter} />
         </Wrapper>
     )
 }
 
-export default React.memo(Toolbar)
+export default React.memo(PageToolbar)

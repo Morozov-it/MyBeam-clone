@@ -23,7 +23,7 @@ export interface HistoryLog {
     who: User
     when: string
     change_type: ChangeType
-    what: string[] | null
+    what: string[]
 }
 
 export interface BaseDocFields {
@@ -37,5 +37,5 @@ export interface BaseDocFields {
     updated_by: User | null
     updated_date: string | null
     history_log: HistoryLog[]
-    attachments: UploadFile[] | null
+    attachments: UploadFile[]
 }

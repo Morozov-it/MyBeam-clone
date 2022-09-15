@@ -3,15 +3,17 @@ import { useCallback, useMemo } from "react"
 import { message } from "antd"
 import moment, { isMoment } from "moment"
 import { v4 } from "uuid"
+import { MutationDefinition } from "@reduxjs/toolkit/dist/query"
+import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks"
 import { Deal } from "@models/contracts/deals"
 import { User } from "@models/user"
 import { getChangedFields } from "@utils/getChangedFields"
 
 interface Props {
     user: User
-    createDeal: any
-    deleteDeal: any
-    updateDeal: any
+    createDeal: MutationTrigger<MutationDefinition<Omit<Deal, "id">, any, any, Deal, string>>
+    deleteDeal: MutationTrigger<MutationDefinition<number, any, any, {}, string>>
+    updateDeal: MutationTrigger<MutationDefinition<Deal, any, any, Deal, string>>
     createClose: () => void
     selectedRowKeys: React.Key[]
     setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[]>>
@@ -35,6 +37,20 @@ export const useDealActions = ({
     offEdit
 }: Props) => {
     //Creating
+    const createInitialValues: Partial<Deal> = useMemo(() => ({
+        comments: null,
+        customers: [],
+        contract_date: null,
+        end_date: null,
+        name_1c: null,
+        price: null,
+        status: null,
+        subject: null,
+        auto_prolongation: false,
+        include_into_count: false,
+        address_into_count: false
+    }), [])
+
     const onCreate = useCallback( async (values: any) => {
         const data = { ...values } as Omit<Deal, 'id'>
         const dateNow = moment().toISOString()
@@ -48,12 +64,12 @@ export const useDealActions = ({
         data.created_date = dateNow
         data.updated_by = null
         data.updated_date = null
-        data.attachments = null
+        data.attachments = []
         data.history_log = [{
             id: v4(),
             who: user,
             change_type: 'create',
-            what: null,
+            what: [],
             when: dateNow
         }]
         createDeal(data)
@@ -63,20 +79,6 @@ export const useDealActions = ({
                 createClose()
             })
     }, [user])
-
-    const createInitialValues = useMemo(() => ({
-        comments: null,
-        customers: null,
-        contract_date: null,
-        end_date: null,
-        name_1c: null,
-        price: null,
-        status: null,
-        subject: null,
-        auto_prolongation: false,
-        include_into_count: false,
-        address_into_count: false
-    }), [])
 
     //Deleting
     const onDelete = useCallback((id: number) => deleteDeal(id), []) 
@@ -90,7 +92,6 @@ export const useDealActions = ({
     }, [selectedRowKeys])
 
     //Updating
-    //TODO: fix undefined selects
     const onUpdate = useCallback((values: any) => {
         const data = { ...(selectedItem ?? {}), ...values} as Deal
         const changedFields = getChangedFields(selectedItem ?? {}, data)
@@ -99,7 +100,7 @@ export const useDealActions = ({
             data.updated_by = user
             data.updated_date = dateNow
             data.history_log = [
-                ...(selectedItem?.history_log ?? []),
+                ...selectedItem?.history_log,
                 {
                     id: v4(),
                     who: user,
@@ -108,7 +109,7 @@ export const useDealActions = ({
                     what: changedFields,
                 }
             ]
-            updateDeal(data).unwrap().then((updated: Deal) => {
+            updateDeal(data).unwrap().then((updated) => {
                 message.success(`Договор успешно изменен`)
                 changeSelectedItem(updated)
                 offEdit()

@@ -1,12 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useMemo, useState } from "react"
+import { CustomColumnType } from "@components/smartTable/lib/types"
 
-export const useTable = (cols: any[]) => {
+export const useTable = <T,>(cols: CustomColumnType<T>[]) => {
     //SelectedItem
-    const [selectedItem, setSelectedItem] = useState<any>(null)
-    const changeSelectedItem = useCallback((value: any) => setSelectedItem(value), [])
+    const [selectedItem, setSelectedItem] = useState<T | null>(null)
+    const changeSelectedItem = useCallback((value: T) => setSelectedItem(value), [])
     const resetSelectedItem = useCallback(() => setSelectedItem(null), [])
 
-    // Table
+    //Row selection
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     const onSelectChange = useCallback((newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys)
@@ -17,10 +19,8 @@ export const useTable = (cols: any[]) => {
         onChange: onSelectChange,
     }), [onSelectChange, selectedRowKeys])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const onRowClick = useCallback((record: any) => ({ onClick: () => changeSelectedItem(record) }), [])
+    const onRowClick = useCallback((record: T) => ({ onClick: () => changeSelectedItem(record) }), [])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const columns = useMemo(() => cols, [])
 
     return {

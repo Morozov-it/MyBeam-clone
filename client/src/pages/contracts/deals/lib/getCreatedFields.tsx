@@ -8,7 +8,7 @@ import {
 import { RubInput, StatusSelect, SubjectSelect } from '@components/controllers'
 import CustomersSelect from '@components/controllers/CustomersSelect'
 
-const getCreatedFields = (): (FormItemProps & { key: React.Key })[] => [
+const getCreatedFields = <T,>(): (FormItemProps<T> & { key: React.Key })[] => [
     {
         key: "name",
         name: "name",

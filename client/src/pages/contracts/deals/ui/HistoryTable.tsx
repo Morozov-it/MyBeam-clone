@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import SmartTable from '@components/smartTable'
 import { HistoryLog } from '@models/base'
@@ -11,17 +11,20 @@ const Wrapper = styled.div`
 `
 
 interface Props {
-    data: HistoryLog[]
+    data?: HistoryLog[]
 }
 
 const HistoryTable: React.FC<Props> = ({ data }) => {
+    const dataSource = useMemo(() => data ?? [], [data])
+    const scroll = useMemo(() => ({ x: 600 }), [])
+
     return (
         <Wrapper>
             <SmartTable<HistoryLog>
                 columns={getHistoryColumns()}
-                dataSource={data}
+                dataSource={dataSource}
                 pagination={false}
-                scroll={{ x: 600 }}
+                scroll={scroll}
             />
         </Wrapper>
     )
