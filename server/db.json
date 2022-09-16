@@ -21,121 +21,12 @@
   ],
   "deals": [
     {
-      "name": "updated user",
-      "number": "test/1",
-      "company": "Axsoft",
-      "subject": "outsource",
-      "status": "sighed",
-      "name_1c": "Договор в 1с",
-      "customers": null,
-      "price": 100000,
-      "contract_date": "2022-09-06T13:11:35.442Z",
-      "end_date": "2023-09-30T13:11:40.947Z",
-      "auto_prolongation": true,
-      "include_into_count": false,
-      "address_into_count": false,
-      "comments": "на контроль",
-      "type": "deal",
-      "deleted": false,
-      "created_by": {
-        "id": 2,
-        "email": "admin@mail.com",
-        "name": "Admin"
-      },
-      "created_date": "2022-09-06T13:11:56.681Z",
-      "updated_by": null,
-      "updated_date": null,
-      "id": 1
-    },
-    {
-      "name": "Договор второй",
-      "number": "156-Д",
-      "company": "ООО Компания",
-      "subject": null,
-      "status": null,
-      "name_1c": "Договор",
-      "customers": null,
-      "price": 5000,
-      "contract_date": "2022-09-02T13:28:33.825Z",
-      "end_date": null,
-      "auto_prolongation": false,
-      "include_into_count": true,
-      "address_into_count": true,
-      "comments": null,
-      "type": "deal",
-      "deleted": false,
-      "created_by": {
-        "id": 2,
-        "email": "admin@mail.com",
-        "name": "Admin"
-      },
-      "created_date": "2022-09-06T13:28:42.511Z",
-      "updated_by": null,
-      "updated_date": null,
-      "id": 2
-    },
-    {
-      "name": "Третий договор",
-      "number": "21",
-      "company": "ООО Стар",
-      "subject": "contracts",
-      "status": "on_considering",
-      "name_1c": "название",
-      "customers": null,
-      "price": 30000,
-      "contract_date": null,
-      "end_date": null,
-      "auto_prolongation": false,
-      "include_into_count": true,
-      "address_into_count": true,
-      "comments": "Примечание писать здесь",
-      "type": "deal",
-      "deleted": false,
-      "created_by": {
-        "id": 2,
-        "email": "admin@mail.com",
-        "name": "Admin"
-      },
-      "created_date": "2022-09-06T13:39:20.355Z",
-      "updated_by": null,
-      "updated_date": null,
-      "id": 3
-    },
-    {
-      "name": "Договор созданный Юзером",
-      "number": "125",
-      "company": "Реакт",
-      "subject": "outsource",
-      "status": "sighed",
-      "name_1c": null,
-      "customers": null,
-      "price": 3000,
-      "contract_date": "2022-09-07T10:01:36.486Z",
-      "end_date": "2023-09-30T10:01:38.046Z",
-      "auto_prolongation": true,
-      "include_into_count": true,
-      "address_into_count": true,
-      "comments": null,
-      "type": "deal",
-      "deleted": false,
-      "created_by": {
-        "id": 1,
-        "email": "user@mail.com",
-        "name": "user"
-      },
-      "created_date": "2022-09-07T10:01:53.078Z",
-      "updated_by": null,
-      "updated_date": null,
-      "id": 5
-    },
-    {
       "name": "Второй договор Юзера",
       "number": "156",
       "company": "ИП Юзер",
-      "subject": null,
       "status": null,
       "name_1c": null,
-      "customers": null,
+      "customers": [],
       "price": null,
       "contract_date": "2022-09-07T10:03:54.054Z",
       "end_date": "2022-10-30T10:03:55.710Z",
@@ -151,9 +42,438 @@
         "name": "user"
       },
       "created_date": "2022-09-07T10:04:02.405Z",
-      "updated_by": null,
-      "updated_date": null,
-      "id": 6
+      "updated_by": {
+        "id": 2,
+        "name": "Admin",
+        "email": "admin@mail.com"
+      },
+      "updated_date": "2022-09-15T08:30:43.789Z",
+      "id": 6,
+      "history_log": [
+        {
+          "id": "1df6ac64-6271-4ced-887d-140acf130b89",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T06:04:26.522Z",
+          "what": [
+            "subject"
+          ]
+        },
+        {
+          "id": "d2929009-8aa2-4bc2-bfc8-425b79a13dc1",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T06:04:52.336Z",
+          "what": [
+            "subject"
+          ]
+        },
+        {
+          "id": "2de00f41-9e6a-4328-bb02-ec6ed8843405",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T08:30:43.789Z",
+          "what": [
+            "customers"
+          ]
+        }
+      ],
+      "subject": []
+    },
+    {
+      "name": "Тест с новой формой",
+      "number": "123",
+      "company": "Kомпания",
+      "subject": [],
+      "status": "terminated",
+      "name_1c": "",
+      "customers": [],
+      "price": 5000,
+      "contract_date": "2022-09-08T10:01:02.824Z",
+      "end_date": "2023-09-30T10:01:04.295Z",
+      "auto_prolongation": true,
+      "include_into_count": true,
+      "address_into_count": false,
+      "comments": "комментарии",
+      "type": "deal",
+      "deleted": false,
+      "created_by": {
+        "id": 2,
+        "name": "Admin",
+        "email": "admin@mail.com"
+      },
+      "created_date": "2022-09-08T10:01:14.538Z",
+      "updated_by": {
+        "id": 2,
+        "name": "Admin",
+        "email": "admin@mail.com"
+      },
+      "updated_date": "2022-09-15T06:31:03.341Z",
+      "history_log": [
+        {
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "create",
+          "what": null,
+          "when": "2022-09-08T10:01:14.538Z"
+        },
+        {
+          "id": "e69d971f-2971-4181-986f-1c3f3d01e2b1",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-12T13:30:25.613Z",
+          "what": [
+            "name_1c"
+          ]
+        },
+        {
+          "id": "8a38e4d1-30c0-411f-886d-db8b838a80be",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-14T08:35:57.623Z",
+          "what": [
+            "company"
+          ]
+        },
+        {
+          "id": "9a5c20db-0441-4ba7-b9c6-7e1533bc26eb",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T06:30:48.709Z",
+          "what": [
+            "subject"
+          ]
+        },
+        {
+          "id": "b5d6116e-4003-4173-ae98-b1c30b24d939",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T06:31:03.341Z",
+          "what": [
+            "subject",
+            "customers"
+          ]
+        }
+      ],
+      "id": 9
+    },
+    {
+      "name": "Optimistic",
+      "number": "123",
+      "company": "Google",
+      "subject": [],
+      "status": "terminated",
+      "name_1c": null,
+      "customers": [],
+      "price": null,
+      "contract_date": "2022-09-09T09:42:52.521Z",
+      "end_date": null,
+      "auto_prolongation": false,
+      "include_into_count": true,
+      "address_into_count": true,
+      "comments": null,
+      "type": "deal",
+      "deleted": false,
+      "created_by": {
+        "id": 2,
+        "name": "Admin",
+        "email": "admin@mail.com"
+      },
+      "created_date": "2022-09-09T09:43:02.307Z",
+      "updated_by": {
+        "id": 2,
+        "name": "Admin",
+        "email": "admin@mail.com"
+      },
+      "updated_date": "2022-09-15T08:28:10.247Z",
+      "attachments": null,
+      "history_log": [
+        {
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "create",
+          "what": null,
+          "when": "2022-09-09T09:43:02.307Z"
+        },
+        {
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-09T10:00:40.688Z",
+          "what": "Изменил поля: name,number"
+        },
+        {
+          "id": "f10f1af7-56a1-4ce0-a521-52f7ee387465",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-09T14:09:21.282Z",
+          "what": [
+            "subject"
+          ]
+        },
+        {
+          "id": "22dcdda9-a01f-4da9-887d-09d8b83f6066",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-09T14:13:20.336Z",
+          "what": [
+            "number",
+            "company",
+            "subject",
+            "end_date",
+            "include_into_count",
+            "address_into_count"
+          ]
+        },
+        {
+          "id": "2d7e2942-b8b2-4a82-8f1f-b7be374c34d0",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-14T13:14:51.053Z",
+          "what": [
+            "status"
+          ]
+        },
+        {
+          "id": "c7129416-2e32-48e1-8b9b-f70d4ac637a4",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-14T13:15:25.965Z",
+          "what": [
+            "status"
+          ]
+        },
+        {
+          "id": "2b2d4384-266d-4899-a551-cbc5cc849e04",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-14T13:16:29.410Z",
+          "what": [
+            "number"
+          ]
+        },
+        {
+          "id": "c5b7988d-c1d8-4e96-8842-54292d8900d4",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-14T13:16:51.190Z",
+          "what": [
+            "end_date"
+          ]
+        },
+        {
+          "id": "17d242e7-dfc0-49fb-ad9b-bb8a2363e02a",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-14T13:17:18.535Z",
+          "what": [
+            "subject"
+          ]
+        },
+        {
+          "id": "01aa9c19-64a9-4adf-93de-8b1471425d46",
+          "who": {
+            "id": 1,
+            "name": "user",
+            "email": "user@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-14T13:17:44.934Z",
+          "what": [
+            "auto_prolongation"
+          ]
+        },
+        {
+          "id": "0647229f-48c2-4106-9f70-ab34f42794c6",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T08:28:10.247Z",
+          "what": [
+            "subject",
+            "customers"
+          ]
+        }
+      ],
+      "id": 11
+    },
+    {
+      "name": "Nest select",
+      "number": "456",
+      "company": "Nest",
+      "subject": "contracts",
+      "name_1c": null,
+      "customers": [],
+      "price": null,
+      "contract_date": "2022-09-30T11:36:11.339Z",
+      "end_date": null,
+      "auto_prolongation": false,
+      "include_into_count": true,
+      "address_into_count": false,
+      "comments": null,
+      "type": "deal",
+      "deleted": false,
+      "created_by": {
+        "id": 2,
+        "name": "Admin",
+        "email": "admin@mail.com"
+      },
+      "created_date": "2022-09-15T11:36:13.995Z",
+      "updated_by": {
+        "id": 2,
+        "name": "Admin",
+        "email": "admin@mail.com"
+      },
+      "updated_date": "2022-09-15T11:37:54.314Z",
+      "attachments": [],
+      "history_log": [
+        {
+          "id": "5647ac85-df29-4034-b06d-5f91daff5a4b",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "create",
+          "what": [],
+          "when": "2022-09-15T11:36:13.995Z"
+        },
+        {
+          "id": "3aa8d2fb-ede5-4dcc-b623-0963d0de6c60",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T11:36:29.300Z",
+          "what": [
+            "subject"
+          ]
+        },
+        {
+          "id": "53763697-8617-482e-8fe1-8d59a78bbeb6",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T11:37:21.163Z",
+          "what": [
+            "subject"
+          ]
+        },
+        {
+          "id": "2ec19f7b-156a-4b8e-b7d6-897b24840e1f",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T11:37:38.026Z",
+          "what": [
+            "status"
+          ]
+        },
+        {
+          "id": "ddff8f4d-4104-41fd-9bb7-7a6d139f7a76",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T11:37:47.401Z",
+          "what": [
+            "status"
+          ]
+        },
+        {
+          "id": "ab812c3b-8740-49ea-9be3-0bfb8d2e9014",
+          "who": {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@mail.com"
+          },
+          "change_type": "update",
+          "when": "2022-09-15T11:37:54.314Z",
+          "what": [
+            "status"
+          ]
+        }
+      ],
+      "id": 12,
+      "status": "terminated"
     }
   ],
   "customers": [],
