@@ -4,6 +4,29 @@ import { User } from "./user"
 export interface IndexedValues { [key: string]: any }
 
 export type TypeOfDoc = 'deal' | 'customer' | 'operation'
+export type TypeOfDirectory = 'banks' |
+    'companyTypes' |
+    'contractStatuses' |
+    'costArticles' |
+    'documentTypes' |
+    'geographyCountries' |
+    'geographyRegions' |
+    'geographyLocalities' |
+    'gphServices' |
+    'inOutComeArticles' |
+    'jobPositions' |
+    'jobStatuses' |
+    'jobTypes' |
+    'measures' |
+    'purchaseKinds' |
+    'serviceKinds' |
+    'sourceOfPersons' |
+    'structureLegalEntities' |
+    'structureObjects' |
+    'structureTerritories' |
+    'structureWorkRegions' |
+    'taxTypes' |
+    'vacationKinds'
 
 export type ChangeType = 'create' | 'update' | 'delete'
 
@@ -42,4 +65,15 @@ export interface BaseDocFields {
     updated_date: string | null
     history_log: HistoryLog[]
     attachments: UploadFile[]
+}
+
+export interface BaseDirectoryFields {
+    id: number
+    name: string
+    type: TypeOfDirectory
+    deleted: boolean
+    created_by: User
+    created_date: string
+    updated_by: User | null
+    updated_date: string | null
 }

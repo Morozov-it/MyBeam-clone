@@ -30,7 +30,7 @@ const SideBar: React.FC = () => {
     return (
         <Wrapper
             collapsible
-            collapsed={collapsed || width < 500}
+            collapsed={collapsed || width < 700}
             onCollapse={(value) => setCollapsed(value)}
         >
             <div className='logo'>
@@ -38,7 +38,7 @@ const SideBar: React.FC = () => {
             </div>
             <Menu
                 theme="dark"
-                mode="inline"
+                triggerSubMenuAction='click'
                 selectedKeys={selectedKeys}
                 onClick={(info) => {
                     setSelectedKeys([info.key])

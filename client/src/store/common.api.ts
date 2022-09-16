@@ -12,7 +12,35 @@ export const commonApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['Deals', 'Customers', 'Operations', 'User'],
+    tagTypes: [
+        //Contracts
+        'Deals',
+        'Customers',
+        'Operations',
+        //Directories
+        'Banks',
+        'CompanyTypes',
+        'ContractStatuses',
+        'CostArticles',
+        'DocumentTypes',
+        'GeographyCountries',
+        'GeographyRegions',
+        'GeographyLocalities',
+        'GphServices',
+        'InOutComeArticles',
+        'JobPositions',
+        'JobStatuses',
+        'JobTypes',
+        'Measures',
+        'PurchaseKinds',
+        'ServiceKinds',
+        'SourceOfPersons',
+        'StructureLegalEntities',
+        'StructureObjects',
+        'StructureTerritories',
+        'StructureWorkRegions',
+        'TaxTypes',
+        'VacationKinds'
+    ],
     endpoints: _ => ({}),
-    //keepUnusedDataFor: 1,
 })

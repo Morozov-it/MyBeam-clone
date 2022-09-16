@@ -3,10 +3,11 @@ import { ColumnFilterItem } from 'antd/lib/table/interface'
 import { Checkbox, Tag, Tooltip } from 'antd'
 import moment from 'moment'
 import { CustomColumnType } from "@components/smartTable/lib/types"
-import { Deal, SubjectDealType, StatusDealType } from "@models/contracts/deals"
-import { Customer } from '@models/contracts/customers'
+import { Deal, SubjectDealType, StatusDealType } from "../models"
+import { Customer } from '@pages/contracts/customers/models'
 import parseBigValue from '@utils/parseBigValue'
 
+//TODO: change to server catalogs
 const subjectFilters: ColumnFilterItem[] = [
     { text: SubjectDealType.favor, value: 'favor' },
     { text: SubjectDealType.contracts, value: 'contracts' },

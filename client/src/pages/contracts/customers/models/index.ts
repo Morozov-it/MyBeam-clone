@@ -1,4 +1,4 @@
-import { BaseDocFields } from "../base"
+import { BaseDocFields } from "@models/base"
 
 export interface Customer extends BaseDocFields {
     INN: string

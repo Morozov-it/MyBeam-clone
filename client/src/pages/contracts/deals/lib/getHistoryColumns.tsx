@@ -4,7 +4,7 @@ import moment from 'moment'
 import { Tag } from 'antd'
 import { CustomColumnType } from "@components/smartTable/lib/types"
 import { ChangeTypes, HistoryLog } from '@models/base'
-import { DealFieldNames } from '@models/contracts/deals'
+import { DealFieldNames } from '../models'
 
 const changeTypeFilters: ColumnFilterItem[] = [
     { text: ChangeTypes.create, value: 'create' },

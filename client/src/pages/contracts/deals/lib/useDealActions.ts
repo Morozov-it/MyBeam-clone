@@ -5,7 +5,7 @@ import moment, { isMoment } from "moment"
 import { v4 } from "uuid"
 import { MutationDefinition } from "@reduxjs/toolkit/dist/query"
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks"
-import { Deal } from "@models/contracts/deals"
+import { Deal } from "../models"
 import { User } from "@models/user"
 import { getChangedFields } from "@utils/getChangedFields"
 

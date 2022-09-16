@@ -25,8 +25,7 @@ const SearchDrop: React.FC<Props> = ({ catalog, onSelect }) => {
         <Select
             showSearch
             value={value}
-            placeholder={<><SearchOutlined /> поиск</>}
-            style={{ width: 200 }}
+            placeholder={<><SearchOutlined /> поиск раздела</>}
             defaultActiveFirstOption={false}
             showArrow={false}
             filterOption={false}

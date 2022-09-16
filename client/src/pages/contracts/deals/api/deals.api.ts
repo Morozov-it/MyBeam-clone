@@ -1,40 +1,40 @@
-import { Customer } from "@models/contracts/customers"
+import { Deal } from "@pages/contracts/deals/models"
 import { commonApi } from "@store/common.api"
 import { userActions } from "@store/user/user.slice"
 
-export const customersApi = commonApi.injectEndpoints({
+export const dealsApi = commonApi.injectEndpoints({
     endpoints: build => ({
-        fetchCustomers: build.query<Customer[], string>({
+        fetchDeals: build.query<Deal[], string>({
             query: () => ({
-                url: '/customers',
+                url: '/deals',
             }),
             onQueryStarted(_, { dispatch, queryFulfilled }) {
                 queryFulfilled.then((data) => {})
                     .catch((data) => data.error.status === 401 && dispatch(userActions.logout()))
             },
-            providesTags: [{ type: 'Customers', id: 'LIST' }],
+            providesTags: [{ type: 'Deals', id: 'LIST' }],
         }),
-        createCustomer: build.mutation<Customer, Omit<Customer, 'id'>>({
-            query: (newCustomer) => ({
-                url: '/customers',
+        createDeal: build.mutation<Deal, Omit<Deal, 'id'>>({
+            query: (newDeal) => ({
+                url: '/deals',
                 method: 'POST',
-                body: newCustomer,
+                body: newDeal,
             }),
             //pessimistic update - after fulfilled query
             onQueryStarted(_, { dispatch, queryFulfilled }) {
                 queryFulfilled
                     .then(({ data }) => {
                         dispatch(
-                            customersApi.util.updateQueryData('fetchCustomers', '', draft => {
+                            dealsApi.util.updateQueryData('fetchDeals', '', draft => {
                                 draft.push(data)
                             })
                         )
                     })
             },
         }),
-        updateCustomer: build.mutation<Customer, Customer>({
+        updateDeal: build.mutation<Deal, Deal>({
             query: (updated) => ({
-                url: `/customers/${updated.id}`,
+                url: `/deals/${updated.id}`,
                 method: 'PUT',
                 body: updated,
             }),
@@ -43,29 +43,29 @@ export const customersApi = commonApi.injectEndpoints({
                 queryFulfilled
                     .then(({ data }) => {
                         dispatch(
-                            customersApi.util.updateQueryData('fetchCustomers', '', draft => {
-                                let customer = draft.find(customer => customer.id === data.id)
-                                !!customer && Object.assign(customer, data)
+                            dealsApi.util.updateQueryData('fetchDeals', '', draft => {
+                                let deal = draft.find(deal => deal.id === data.id)
+                                !!deal && Object.assign(deal, data)
                             })
                         )
                     })
             },
         }),
-        deleteCustomer: build.mutation<{}, number>({
+        deleteDeal: build.mutation<{}, number>({
             query: (id) => ({
-                url: `/customers/${id}`,
+                url: `/deals/${id}`,
                 method: 'DELETE',
             }),
             //refetch
-            invalidatesTags: (result, error, arg) => !error ? [{ type: 'Customers', id: 'LIST' }] : [],
+            invalidatesTags: (result, error, arg) => !error ? [{ type: 'Deals', id: 'LIST' }] : [],
         }),
     }),
 })
 
 export const {
-    useCreateCustomerMutation,
-    useDeleteCustomerMutation,
-    useFetchCustomersQuery,
-    useUpdateCustomerMutation,
-    useLazyFetchCustomersQuery,
-} = customersApi
+    useCreateDealMutation,
+    useDeleteDealMutation,
+    useFetchDealsQuery,
+    useUpdateDealMutation,
+    useLazyFetchDealsQuery,
+} = dealsApi

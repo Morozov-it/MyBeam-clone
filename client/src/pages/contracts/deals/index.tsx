@@ -2,10 +2,10 @@
 import React, { useCallback, useMemo } from 'react'
 import { Alert, Drawer } from 'antd'
 //store
-import { useCreateDealMutation, useDeleteDealMutation, useFetchDealsQuery, useUpdateDealMutation } from '@store/contracts/deals.api'
-import { useFetchCustomersQuery } from '@store/contracts/customers.api'
+import { useCreateDealMutation, useDeleteDealMutation, useFetchDealsQuery, useUpdateDealMutation } from './api/deals.api'
+import { useFetchCustomersQuery } from '../customers/api/customers.api'
 //models
-import { Deal, StatusDealType, SubjectDealType } from '@models/contracts/deals'
+import { Deal, StatusDealType, SubjectDealType } from './models'
 import { BaseCatalogs, Catalog } from '@models/base'
 //lib & ui
 import TabsBar from './ui/TabsBar'

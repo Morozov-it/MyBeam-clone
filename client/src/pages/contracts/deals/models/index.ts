@@ -1,5 +1,5 @@
-import { BaseDocFields, IndexedValues } from "../base"
-import { Customer } from "./customers"
+import { BaseDocFields, IndexedValues } from "@models/base"
+import { Customer } from "@pages/contracts/customers/models"
 
 export enum SubjectDealType {
     favor = 'Оказание услуг',

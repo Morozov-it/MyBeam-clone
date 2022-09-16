@@ -17,20 +17,18 @@ const Wrapper = styled(Layout.Header)`
     gap: 8px;
     background: #fff;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
+    align-items: flex-start;
 
     .header-content {
         display: flex;
         align-items: center;
         gap: 10px;
-        flex-wrap: wrap;
-        margin-left: auto;
     }
 
     .ant-breadcrumb {
         font-size: 16px;
+        align-items: center;
     }
 `
 
@@ -51,21 +49,22 @@ const Header: React.FC = () => {
                 {
                     getBreadcrumbs(location.pathname, mergedRoutes).map((route) => route && (
                         <Breadcrumb.Item key={route.path}>
-                            {route.icon}
-                            <span>{route.title}</span>
+                            <Link to={route.path}>
+                                {route.icon} {route.title}
+                            </Link>
                         </Breadcrumb.Item>
                     ))
                 }
             </Breadcrumb>
             <div className="header-content">
-                {width > 760 && <SearchDrop catalog={catalog} onSelect={onSelect} />}
-                {width > 520 && <Tooltip title={'Новое окно'}>
+                {width > 700 && <SearchDrop catalog={catalog} onSelect={onSelect} />}
+                <Tooltip title={'Новое окно'}>
                     <Link to={location.pathname} target="_blank">
                         <Button>
                             <WindowsOutlined />
                         </Button>
                     </Link>
-                </Tooltip>}
+                </Tooltip>
                 <UserInfo />
             </div>
         </Wrapper>
