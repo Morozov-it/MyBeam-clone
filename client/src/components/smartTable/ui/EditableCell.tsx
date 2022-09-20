@@ -1,14 +1,18 @@
 import React from 'react'
 import { Form, Input, InputNumber } from 'antd'
+import { CatalogSelect } from '@components/controllers'
+import { Catalog } from '@models/base'
+import { EditType } from '../lib/types'
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean
     dataIndex: string
     title: any
-    inputType: 'number' | 'text'
+    inputType: EditType
     record: any
     index: number
     children: React.ReactNode
+    catalog?: Catalog[]
 }
 
 const EditableCell: React.FC<EditableCellProps> = ({
@@ -19,9 +23,21 @@ const EditableCell: React.FC<EditableCellProps> = ({
     record,
     index,
     children,
+    catalog,
     ...restProps
 }) => {
-    const inputNode = inputType === 'number' ? <InputNumber /> : <Input />
+    const inputNode = () => {
+        switch (inputType) {
+            case 'number':
+                return <InputNumber />
+            case 'select':
+                return <CatalogSelect catalog={catalog} />
+            case 'text':
+                return <Input />
+            default:
+                return <Input />
+        }
+    }
 
     return (
         <td {...restProps}>
@@ -32,11 +48,11 @@ const EditableCell: React.FC<EditableCellProps> = ({
                 rules={[
                 {
                     required: true,
-                    message: `Введите ${title}!`,
+                    message: 'Введите данные',
                 },
                 ]}
             >
-                {inputNode}
+                {inputNode()}
             </Form.Item>
             ) : (
             children

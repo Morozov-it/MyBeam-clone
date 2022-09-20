@@ -8,6 +8,15 @@ const CatalogSelect: React.FC<SelectProps & { catalog?: Catalog[]}> = ({ catalog
         <Select
             placeholder="выбрать"
             allowClear
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+                (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())}
+            filterSort={(optionA, optionB) =>
+                (optionA!.children as unknown as string)
+                    .toLowerCase()
+                    .localeCompare((optionB!.children as unknown as string).toLowerCase())
+            }
             {...props}
         >
             {catalog?.map((item) => (

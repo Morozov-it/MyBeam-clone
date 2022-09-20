@@ -1,8 +1,8 @@
 import moment from "moment"
 import { CustomColumnType } from "@components/smartTable/lib/types"
-import { GeographyCountry } from "../models"
+import { Bank } from "../models"
 
-const getCountriesColumns = (): CustomColumnType<GeographyCountry>[] => ([
+const getBanksColumns = (): CustomColumnType<Bank>[] => ([
     {
         title: 'Название',
         dataIndex: 'name',
@@ -13,14 +13,56 @@ const getCountriesColumns = (): CustomColumnType<GeographyCountry>[] => ([
         width: 300,
     },
     {
-        title: 'Код',
-        dataIndex: 'code',
-        key: 'code',
+        title: 'БИК',
+        dataIndex: 'BIK',
+        key: 'BIK',
         customFilter: 'search',
         align: 'center',
-        sorter: (a, b) => a.code.localeCompare(b.code),
+        sorter: (a, b) => a.BIK.localeCompare(b.BIK),
         editable: true,
-        width: 120,
+        width: 150,
+    },
+    {
+        title: 'ИНН',
+        dataIndex: 'INN',
+        key: 'INN',
+        customFilter: 'search',
+        align: 'center',
+        sorter: (a, b) => a.INN.localeCompare(b.INN),
+        editable: true,
+        width: 150,
+    },
+    {
+        title: 'Дневной лимит',
+        dataIndex: 'dayLimit',
+        key: 'dayLimit',
+        customFilter: 'slider',
+        align: 'center',
+        sorter: (a, b) => a.dayLimit - b.dayLimit,
+        editable: true,
+        editType: 'number',
+        width: 150,
+    },
+    {
+        title: 'Месячный лимит',
+        dataIndex: 'monthLimit',
+        key: 'monthLimit',
+        customFilter: 'slider',
+        align: 'center',
+        sorter: (a, b) => a.monthLimit - b.monthLimit,
+        editable: true,
+        editType: 'number',
+        width: 150,
+    },
+    {
+        title: 'Корреспондентский счет',
+        dataIndex: 'cor_account',
+        key: 'cor_account',
+        customFilter: 'search',
+        align: 'center',
+        sorter: (a, b) => a.cor_account.localeCompare(b.cor_account),
+        editable: true,
+        width: 200,
     },
     {
         title: 'Кем создано',
@@ -71,4 +113,4 @@ const getCountriesColumns = (): CustomColumnType<GeographyCountry>[] => ([
     },
 ])
 
-export default getCountriesColumns
+export default getBanksColumns

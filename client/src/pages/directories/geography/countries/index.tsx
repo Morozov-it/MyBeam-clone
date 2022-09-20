@@ -8,7 +8,7 @@ import {
     useUpdateCountryMutation
 } from './api/geographyCountries.api'
 //lib & ui
-import { CreateCountriesValues, GeographyCountry } from './models'
+import { CreateCountryValues, GeographyCountry } from './models'
 import getCountriesColumns from './lib/getCountriesColumns'
 import getCreatedFields from './lib/getCreatedFields'
 import useCountryActions from './lib/useCountryActions'
@@ -28,7 +28,7 @@ import { useEditRow } from '@utils/hooks/useEditRow'
 
 const Page: React.FC = () => {
     const user = useUser()
-    const { height } = useWindowSize()
+    const { width, height } = useWindowSize()
 
     //Queries & mutations
     const { data, isLoading, isFetching, error } = useFetchCountriesQuery('')
@@ -101,12 +101,13 @@ const Page: React.FC = () => {
                 footer={null}
                 onCancel={hideCreateModal}
             >
-                <DynamicForm<CreateCountriesValues>
+                <DynamicForm<CreateCountryValues>
                     name='countries'
                     getfields={createFields}
                     loading={createLoading}
                     error={createError}
                     onFinish={onGroupCreate}
+                    width={width}
                 />
             </Modal>
         </PageWrapper>

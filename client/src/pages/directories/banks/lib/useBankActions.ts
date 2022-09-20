@@ -5,14 +5,14 @@ import { FormInstance, message } from "antd"
 import { MutationDefinition } from "@reduxjs/toolkit/dist/query"
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks"
 import { User } from "@models/user"
-import { CreateCountryValues, GeographyCountry } from "../models"
+import { Bank, CreateBankValues } from "../models"
 import { BaseDirectoryFields } from "@models/base"
 
 interface Props {
     user: User
-    createCountry: MutationTrigger<MutationDefinition<Omit<GeographyCountry, "id">, any, any, GeographyCountry, string>>
-    deleteCountry: MutationTrigger<MutationDefinition<number, any, any, {}, string>>
-    updateCountry: MutationTrigger<MutationDefinition<GeographyCountry, any, any, GeographyCountry, string>>
+    createBank: MutationTrigger<MutationDefinition<Omit<Bank, "id">, any, any, Bank, string>>
+    deleteBank: MutationTrigger<MutationDefinition<number, any, any, {}, string>>
+    updateBank: MutationTrigger<MutationDefinition<Bank, any, any, Bank, string>>
     editForm: FormInstance<any>
     hideCreateModal: () => void
     cancelEdit: () => void
@@ -20,11 +20,11 @@ interface Props {
     setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[]>>
 }
 
-const useCountryActions = ({
+const useBankActions = ({
     user,
-    createCountry,
-    deleteCountry,
-    updateCountry, 
+    createBank,
+    deleteBank,
+    updateBank, 
     editForm, 
     hideCreateModal, 
     cancelEdit, 
@@ -32,10 +32,10 @@ const useCountryActions = ({
     setSelectedRowKeys
 }: Props) => {
     //Creating
-    const onCreate = useCallback((data: Omit<GeographyCountry, 'id'>) => 
-        createCountry(data), [])
-    const onGroupCreate = useCallback(async (values: CreateCountryValues) => {
-        if (!!values.countries?.length) {
+    const onCreate = useCallback((data: Omit<Bank, 'id'>) => 
+        createBank(data), [])
+    const onGroupCreate = useCallback(async (values: CreateBankValues) => {
+        if (!!values.banks?.length) {
             const initialData: Omit<BaseDirectoryFields, 'id' | 'name'> = {
                 type: "geographyCountries",
                 deleted: false,
@@ -44,7 +44,7 @@ const useCountryActions = ({
                 updated_by: null,
                 updated_date: null
             }
-            return Promise.all(values.countries.map((country) => onCreate({ ...initialData, ...country }).unwrap()))
+            return Promise.all(values.banks.map((bank) => onCreate({ ...initialData, ...bank }).unwrap()))
                 .then(() => {
                     message.success('Данные успешно сохранены')
                     hideCreateModal()
@@ -53,20 +53,20 @@ const useCountryActions = ({
     }, [user])
 
     //Updating
-    const onUpdate = useCallback(async (record: GeographyCountry) => {
+    const onUpdate = useCallback(async (record: Bank) => {
         try {
             await editForm.validateFields()
-            const data: GeographyCountry = { ...record, ...editForm.getFieldsValue() }
+            const data: Bank = { ...record, ...editForm.getFieldsValue() }
             data.updated_by = user
             data.updated_date = moment().toISOString()
-            await updateCountry(data).unwrap()
+            await updateBank(data).unwrap()
             message.success('Изменение успешно')
             cancelEdit()
         } catch {}
     }, [user])
 
     //Deleting
-    const onDelete = useCallback((id: number) => deleteCountry(id), []) 
+    const onDelete = useCallback((id: number) => deleteBank(id), []) 
     const onGroupDelete = useCallback(async () => {
         Promise.all(selectedRowKeys.map((id) => onDelete(Number(id)).unwrap()))
             .then(() => {
@@ -82,4 +82,4 @@ const useCountryActions = ({
     }
 }
 
-export default useCountryActions
+export default useBankActions

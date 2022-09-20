@@ -1,17 +1,17 @@
 import { commonApi } from "@store/common.api"
-import { Bank } from "../models"
+import { GeographyRegion } from "../models"
 
-export const banksApi = commonApi.injectEndpoints({
+export const geographyRegionsApi = commonApi.injectEndpoints({
     endpoints: build => ({
-        fetchBanks: build.query<Bank[], string>({
+        fetchRegions: build.query<GeographyRegion[], string>({
             query: () => ({
-                url: '/directoriesBanks',
+                url: '/directoriesGeographyRegions',
             }),
-            providesTags: [{ type: 'Banks', id: 'LIST' }],
+            providesTags: [{ type: 'GeographyRegions', id: 'LIST' }],
         }),
-        createBank: build.mutation<Bank, Omit<Bank, 'id'>>({
+        createRegion: build.mutation<GeographyRegion, Omit<GeographyRegion, 'id'>>({
             query: (created) => ({
-                url: '/directoriesBanks',
+                url: '/directoriesGeographyRegions',
                 method: 'POST',
                 body: created,
             }),
@@ -20,16 +20,16 @@ export const banksApi = commonApi.injectEndpoints({
                 queryFulfilled
                     .then(({ data }) => {
                         dispatch(
-                            banksApi.util.updateQueryData('fetchBanks', '', draft => {
+                            geographyRegionsApi.util.updateQueryData('fetchRegions', '', draft => {
                                 draft.push(data)
                             })
                         )
                     })
             },
         }),
-        updateBank: build.mutation<Bank, Bank>({
+        updateRegion: build.mutation<GeographyRegion, GeographyRegion>({
             query: (updated) => ({
-                url: `/directoriesBanks/${updated.id}`,
+                url: `/directoriesGeographyRegions/${updated.id}`,
                 method: 'PUT',
                 body: updated,
             }),
@@ -38,7 +38,7 @@ export const banksApi = commonApi.injectEndpoints({
                 queryFulfilled
                     .then(({ data }) => {
                         dispatch(
-                            banksApi.util.updateQueryData('fetchBanks', '', draft => {
+                            geographyRegionsApi.util.updateQueryData('fetchRegions', '', draft => {
                                 let founded = draft.find(founded => founded.id === data.id)
                                 !!founded && Object.assign(founded, data)
                             })
@@ -46,20 +46,20 @@ export const banksApi = commonApi.injectEndpoints({
                     })
             },
         }),
-        deleteBank: build.mutation<{}, number>({
+        deleteRegion: build.mutation<{}, number>({
             query: (id) => ({
-                url: `/directoriesBanks/${id}`,
+                url: `/directoriesGeographyRegions/${id}`,
                 method: 'DELETE',
             }),
             //refetch
-            invalidatesTags: [{ type: 'Banks', id: 'LIST' }],
+            invalidatesTags: [{ type: 'GeographyRegions', id: 'LIST' }],
         }),
     }),
 })
 
 export const {
-    useCreateBankMutation,
-    useDeleteBankMutation,
-    useFetchBanksQuery,
-    useUpdateBankMutation
-} = banksApi
+    useCreateRegionMutation,
+    useDeleteRegionMutation,
+    useUpdateRegionMutation,
+    useFetchRegionsQuery,
+} = geographyRegionsApi

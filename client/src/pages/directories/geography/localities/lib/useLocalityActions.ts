@@ -5,14 +5,14 @@ import { FormInstance, message } from "antd"
 import { MutationDefinition } from "@reduxjs/toolkit/dist/query"
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks"
 import { User } from "@models/user"
-import { CreateCountryValues, GeographyCountry } from "../models"
+import { GeographyLocality, CreateLocalityValues } from "../models"
 import { BaseDirectoryFields } from "@models/base"
 
 interface Props {
     user: User
-    createCountry: MutationTrigger<MutationDefinition<Omit<GeographyCountry, "id">, any, any, GeographyCountry, string>>
-    deleteCountry: MutationTrigger<MutationDefinition<number, any, any, {}, string>>
-    updateCountry: MutationTrigger<MutationDefinition<GeographyCountry, any, any, GeographyCountry, string>>
+    createLocality: MutationTrigger<MutationDefinition<Omit<GeographyLocality, "id">, any, any, GeographyLocality, string>>
+    deleteLocality: MutationTrigger<MutationDefinition<number, any, any, {}, string>>
+    updateLocality: MutationTrigger<MutationDefinition<GeographyLocality, any, any, GeographyLocality, string>>
     editForm: FormInstance<any>
     hideCreateModal: () => void
     cancelEdit: () => void
@@ -20,11 +20,11 @@ interface Props {
     setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[]>>
 }
 
-const useCountryActions = ({
+const useLocalityActions = ({
     user,
-    createCountry,
-    deleteCountry,
-    updateCountry, 
+    createLocality,
+    deleteLocality,
+    updateLocality, 
     editForm, 
     hideCreateModal, 
     cancelEdit, 
@@ -32,19 +32,19 @@ const useCountryActions = ({
     setSelectedRowKeys
 }: Props) => {
     //Creating
-    const onCreate = useCallback((data: Omit<GeographyCountry, 'id'>) => 
-        createCountry(data), [])
-    const onGroupCreate = useCallback(async (values: CreateCountryValues) => {
-        if (!!values.countries?.length) {
+    const onCreate = useCallback((data: Omit<GeographyLocality, 'id'>) => 
+        createLocality(data), [])
+    const onGroupCreate = useCallback(async (values: CreateLocalityValues) => {
+        if (!!values.localities?.length) {
             const initialData: Omit<BaseDirectoryFields, 'id' | 'name'> = {
-                type: "geographyCountries",
+                type: "geographyLocalities",
                 deleted: false,
                 created_by: user,
                 created_date: moment().toISOString(),
                 updated_by: null,
                 updated_date: null
             }
-            return Promise.all(values.countries.map((country) => onCreate({ ...initialData, ...country }).unwrap()))
+            return Promise.all(values.localities.map((locality) => onCreate({ ...initialData, ...locality }).unwrap()))
                 .then(() => {
                     message.success('Данные успешно сохранены')
                     hideCreateModal()
@@ -53,20 +53,20 @@ const useCountryActions = ({
     }, [user])
 
     //Updating
-    const onUpdate = useCallback(async (record: GeographyCountry) => {
+    const onUpdate = useCallback(async (record: GeographyLocality) => {
         try {
             await editForm.validateFields()
-            const data: GeographyCountry = { ...record, ...editForm.getFieldsValue() }
+            const data: GeographyLocality = { ...record, ...editForm.getFieldsValue() }
             data.updated_by = user
             data.updated_date = moment().toISOString()
-            await updateCountry(data).unwrap()
+            await updateLocality(data).unwrap()
             message.success('Изменение успешно')
             cancelEdit()
         } catch {}
     }, [user])
 
     //Deleting
-    const onDelete = useCallback((id: number) => deleteCountry(id), []) 
+    const onDelete = useCallback((id: number) => deleteLocality(id), []) 
     const onGroupDelete = useCallback(async () => {
         Promise.all(selectedRowKeys.map((id) => onDelete(Number(id)).unwrap()))
             .then(() => {
@@ -82,4 +82,4 @@ const useCountryActions = ({
     }
 }
 
-export default useCountryActions
+export default useLocalityActions

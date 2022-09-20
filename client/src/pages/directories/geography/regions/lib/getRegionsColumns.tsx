@@ -1,8 +1,27 @@
 import moment from "moment"
 import { CustomColumnType } from "@components/smartTable/lib/types"
-import { GeographyCountry } from "../models"
+import { GeographyRegion } from "../models"
+import { BaseCatalogs, Catalog } from "@models/base"
 
-const getCountriesColumns = (): CustomColumnType<GeographyCountry>[] => ([
+const getCatalogValue = (value: any, catalogs: Catalog[] | undefined) =>
+    catalogs?.find((catalog) => catalog.id === value)?.name
+
+const getRegionsColumns = (catalogs?: BaseCatalogs): CustomColumnType<GeographyRegion>[] => ([
+    {
+        title: 'Страна',
+        dataIndex: 'countryId',
+        key: 'countryId',
+        filters: catalogs?.countries?.map((catalog) => ({ text: catalog.name, value: catalog.id })),
+        onFilter: (value, record) => record.countryId === value,
+        render: (value) => getCatalogValue(value, catalogs?.countries),
+        sorter: (a, b) =>
+            getCatalogValue(a.countryId, catalogs?.countries)?.localeCompare(
+                getCatalogValue(b.countryId, catalogs?.countries) ?? '') ?? 0,
+        editable: true,
+        editCatalog: catalogs?.countries,
+        editType: 'select',
+        width: 200,
+    },
     {
         title: 'Название',
         dataIndex: 'name',
@@ -10,17 +29,38 @@ const getCountriesColumns = (): CustomColumnType<GeographyCountry>[] => ([
         customFilter: 'search',
         sorter: (a, b) => a.name.localeCompare(b.name),
         editable: true,
-        width: 300,
+        editType: 'text',
+        width: 200,
     },
     {
         title: 'Код',
         dataIndex: 'code',
         key: 'code',
         customFilter: 'search',
-        align: 'center',
         sorter: (a, b) => a.code.localeCompare(b.code),
         editable: true,
+        editType: 'text',
         width: 120,
+    },
+    {
+        title: 'Префикс',
+        dataIndex: 'prefix',
+        key: 'prefix',
+        customFilter: 'search',
+        sorter: (a, b) => a.prefix.localeCompare(b.prefix),
+        editable: true,
+        editType: 'text',
+        width: 120,
+    },
+    {
+        title: 'Полное название',
+        dataIndex: 'fullName',
+        key: 'fullName',
+        customFilter: 'search',
+        sorter: (a, b) => a.fullName.localeCompare(b.fullName),
+        editable: true,
+        editType: 'text',
+        width: 200,
     },
     {
         title: 'Кем создано',
@@ -71,4 +111,4 @@ const getCountriesColumns = (): CustomColumnType<GeographyCountry>[] => ([
     },
 ])
 
-export default getCountriesColumns
+export default getRegionsColumns

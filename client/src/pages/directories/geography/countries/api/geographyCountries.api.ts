@@ -10,10 +10,10 @@ export const geographyCountriesApi = commonApi.injectEndpoints({
             providesTags: [{ type: 'GeographyCountries', id: 'LIST' }],
         }),
         createCountry: build.mutation<GeographyCountry, Omit<GeographyCountry, 'id'>>({
-            query: (newCountry) => ({
+            query: (created) => ({
                 url: '/directoriesGeographyCountries',
                 method: 'POST',
-                body: newCountry,
+                body: created,
             }),
             //pessimistic update - after fulfilled query
             onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -39,8 +39,8 @@ export const geographyCountriesApi = commonApi.injectEndpoints({
                     .then(({ data }) => {
                         dispatch(
                             geographyCountriesApi.util.updateQueryData('fetchCountries', '', draft => {
-                                let country = draft.find(country => country.id === data.id)
-                                !!country && Object.assign(country, data)
+                                let founded = draft.find(founded => founded.id === data.id)
+                                !!founded && Object.assign(founded, data)
                             })
                         )
                     })
@@ -52,7 +52,7 @@ export const geographyCountriesApi = commonApi.injectEndpoints({
                 method: 'DELETE',
             }),
             //refetch
-            invalidatesTags: (result, error, arg) => !error ? [{ type: 'GeographyCountries', id: 'LIST' }] : [],
+            invalidatesTags: [{ type: 'GeographyCountries', id: 'LIST' }],
         }),
     }),
 })
