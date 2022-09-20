@@ -1,11 +1,10 @@
 import React from 'react'
 import { Button, Input, Space } from 'antd'
 import { FilterDropdownProps } from 'antd/lib/table/interface'
-import { Key } from 'antd/es/table/interface'
 import { SearchOutlined } from '@ant-design/icons'
 
-export const DropdownSearch = ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: FilterDropdownProps) => {
-    const handleSearch = (selectedKeys: Key[], confirm: () => void) => {
+const DropdownSearch = ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: FilterDropdownProps) => {
+    const handleSearch = (selectedKeys: React.Key[], confirm: () => void) => {
         confirm()
     }
 
@@ -44,3 +43,5 @@ export const DropdownSearch = ({ setSelectedKeys, selectedKeys, confirm, clearFi
         </div>
     )
 }
+
+export default React.memo(DropdownSearch)

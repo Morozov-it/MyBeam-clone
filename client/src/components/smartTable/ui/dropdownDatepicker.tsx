@@ -4,7 +4,7 @@ import moment from 'moment'
 import { DatePicker } from 'antd'
 import { FilterDropdownProps } from 'antd/lib/table/interface'
 
-export const DropdownDatePicker = (props: FilterDropdownProps) => {
+const DropdownDatePicker = (props: FilterDropdownProps) => {
     const handleChange = (value: any) => {
         props.setSelectedKeys([value])
         props.confirm()
@@ -28,3 +28,5 @@ export const DropdownDatePicker = (props: FilterDropdownProps) => {
         />
     )
 }
+
+export default React.memo(DropdownDatePicker)

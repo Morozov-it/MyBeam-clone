@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Table as AntdTable, Typography } from 'antd'
+import { Table as AntdTable } from 'antd'
 import { TableProps } from 'antd/lib/table/Table'
 import styled from 'styled-components'
 import getTableCustomFilter from './lib/getTableCustomFilter'
@@ -23,10 +23,9 @@ const StyledTable = styled(AntdTable)`
 type Props<RecordType> = Omit<TableProps<RecordType>, 'columns' | 'dataSource'> & {
     columns: CustomColumnType<RecordType>[]
     dataSource: RecordType[]
-    paginate?: boolean
 }
 
-const Table = <RecordType,>({ columns, paginate, ...other }: Props<RecordType>) => {
+const Table = <RecordType,>({ columns, ...other }: Props<RecordType>) => {
     const customColumns = useMemo(() => {
         const p = columns?.map((col) => ({
             ...col,
@@ -38,28 +37,12 @@ const Table = <RecordType,>({ columns, paginate, ...other }: Props<RecordType>) 
         return p
     }, [columns])
 
-    const pagination = useMemo(() => {
-        return paginate === true
-            ? {
-                showTotal: (total: number) =>
-                    <Typography.Title 
-                        style={{ margin: 0, lineHeight: '32px' }} 
-                        level={5}>Всего элементов: {total}
-                    </Typography.Title>,
-                showSizeChanger: true
-             }
-            : paginate === false 
-                ? false
-                : undefined
-    }, [paginate])
-
     return (
         <StyledTable
             {...other}
             rowKey={'id'}
             columns={customColumns}
             bordered
-            pagination={pagination}
         />
     )
 }

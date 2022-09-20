@@ -60,7 +60,7 @@ export const useDealActions = ({
             ? values.end_date.toISOString() : null
         data.type = 'deal'
         data.deleted = false
-        data.created_by = { ...user }
+        data.created_by = user
         data.created_date = dateNow
         data.updated_by = null
         data.updated_date = null
@@ -82,7 +82,7 @@ export const useDealActions = ({
 
     //Deleting
     const onDelete = useCallback((id: number) => deleteDeal(id), []) 
-    const onGroupDelete = useCallback(() => {
+    const onGroupDelete = useCallback(async () => {
         Promise.all(selectedRowKeys.map((id) => onDelete(Number(id)).unwrap()))
             .then(() => {
                 message.success(`Удаление успешно`)

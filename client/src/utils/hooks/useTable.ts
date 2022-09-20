@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useMemo, useState } from "react"
-import { CustomColumnType } from "@components/smartTable/lib/types"
 
-export const useTable = <T,>(cols: CustomColumnType<T>[]) => {
+export const useTable = <T,>() => {
     //SelectedItem
     const [selectedItem, setSelectedItem] = useState<T | null>(null)
     const changeSelectedItem = useCallback((value: T) => setSelectedItem(value), [])
@@ -21,8 +20,6 @@ export const useTable = <T,>(cols: CustomColumnType<T>[]) => {
 
     const onRowClick = useCallback((record: T) => ({ onClick: () => changeSelectedItem(record) }), [])
 
-    const columns = useMemo(() => cols, [])
-
     return {
         selectedItem,
         changeSelectedItem,
@@ -31,6 +28,5 @@ export const useTable = <T,>(cols: CustomColumnType<T>[]) => {
         setSelectedRowKeys,
         rowSelection,
         onRowClick,
-        columns
     }
 }

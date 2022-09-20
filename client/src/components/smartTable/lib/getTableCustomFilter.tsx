@@ -4,7 +4,7 @@ import { CalendarOutlined, SearchOutlined, SlidersOutlined } from '@ant-design/i
 import { DataIndex } from 'rc-table/lib/interface'
 import { Moment } from 'moment'
 import { FilterDropdownProps } from 'antd/lib/table/interface'
-import { DropdownDatePicker, DropdownSlider, DropdownSearch } from '../ui'
+import { DropdownDatepicker, DropdownSlider, DropdownSearch } from '../ui'
 import { CustomTableFilter, InitialSliderValues } from './types'
 import recursionObjectSearch from '@utils/recursionObjectSearch'
 
@@ -47,7 +47,7 @@ const getTableCustomFilter = (
     switch (customFilter) {
         case 'date-picker': 
             return {
-                filterDropdown: (props: FilterDropdownProps) => <DropdownDatePicker {...props} />,
+                filterDropdown: (props: FilterDropdownProps) => <DropdownDatepicker {...props} />,
                 filterIcon: <CalendarOutlined />,
                 onFilter: onDatePickerFilter(dataIndex),
             }

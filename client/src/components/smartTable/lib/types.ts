@@ -10,6 +10,8 @@ export type InitialSliderValues = Partial<{
 }>
 
 export type CustomColumnType<T> = ColumnType<T> & {
+    dataType?: string
+    editable?: boolean
     customFilter?: CustomTableFilter
     initialSliderValues?: InitialSliderValues
 }

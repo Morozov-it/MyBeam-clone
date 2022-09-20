@@ -18,8 +18,9 @@ interface Props {
     deleteLoading: boolean
     deleteDisable: boolean
     onDelete: () => void
-    userFilter: UserFilter
-    onChangeFilter: (value: UserFilter) => void
+    userFilter?: UserFilter
+    onChangeFilter?: (value: UserFilter) => void
+    userSelect?: boolean
     children?: React.ReactNode
 }
 
@@ -30,6 +31,7 @@ const PageToolbar: React.FC<Props> = ({
     onDelete,
     userFilter,
     onChangeFilter,
+    userSelect = false,
     children
 }) => {
     const catalog = useMemo(() =>
@@ -59,13 +61,15 @@ const PageToolbar: React.FC<Props> = ({
                 </Popconfirm>
                 {children}
             </Space>
-            <CatalogSelect
-                catalog={catalog}
-                defaultValue={userFilter}
-                style={{ width: 155 }}
-                onChange={onChangeFilter}
-                allowClear={false}
-            />
+            {userSelect &&
+                <CatalogSelect
+                    catalog={catalog}
+                    defaultValue={userFilter}
+                    style={{ width: 155 }}
+                    onChange={onChangeFilter}
+                    allowClear={false}
+                />
+            }
         </Wrapper>
     )
 }

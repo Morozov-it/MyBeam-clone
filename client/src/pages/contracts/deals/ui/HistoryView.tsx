@@ -29,7 +29,7 @@ const HistoryView: React.FC<Props> = ({ data, title }) => {
                 title={() => <Typography.Title level={5}>{title}</Typography.Title>}
                 columns={getHistoryColumns()}
                 dataSource={dataSource}
-                paginate={false}
+                pagination={false}
                 scroll={scroll}
             />
         </Wrapper>

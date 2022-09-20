@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from 'react'
-import { Alert, Drawer } from 'antd'
+import { Alert, Drawer, Typography } from 'antd'
 //store
 import { useCreateDealMutation, useDeleteDealMutation, useFetchDealsQuery, useUpdateDealMutation } from './api/deals.api'
 import { useFetchCustomersQuery } from '../customers/api/customers.api'
@@ -63,9 +63,19 @@ const Page: React.FC = () => {
         rowSelection, 
         selectedRowKeys, 
         setSelectedRowKeys, 
-        columns
-    } = useTable<Deal>(getDealsColumns())
+    } = useTable<Deal>()
+    const columns = useMemo(() => getDealsColumns() ,[])
     const scroll = useMemo(() => ({ x: 'max-content', y: height - 260 }), [height])
+    const pagination = useMemo(() => (
+        {
+            showTotal: (total: number) =>
+                <Typography.Title 
+                    style={{ margin: 0, lineHeight: '32px' }} 
+                    level={5}>Всего элементов: {total}
+                </Typography.Title>,
+            showSizeChanger: true
+        }
+    ), [])
     //Filter
     const { filteredEntities, userFilter, toggleFilter } = useUserFilter<Deal>(user.id, deals)
     //ViewTabs
@@ -124,7 +134,7 @@ const Page: React.FC = () => {
                 selectedItem={selectedItem}
                 width={width}
                 mainSection={
-                    <div className="main-section">
+                    <section className="main-section">
                         <PageToolbar
                             deleteDisable={!selectedRowKeys.length}
                             deleteLoading={deleteDealLoading}
@@ -132,6 +142,7 @@ const Page: React.FC = () => {
                             onChangeFilter={toggleFilter}
                             onOpenCreate={createShow}
                             onDelete={onGroupDelete}
+                            userSelect
                         />
                         <SmartTable<Deal>
                             columns={columns}
@@ -140,10 +151,10 @@ const Page: React.FC = () => {
                             loading={isFetching || isLoading}
                             scroll={scroll}
                             onRow={onRowClick}
-                            paginate
+                            pagination={pagination}
                         />
                         {(!!error || !!deleteDealError) && <Alert message={JSON.stringify(error || deleteDealError)} type="error" />}
-                    </div>
+                    </section>
                 }
                 viewSection={
                     <ViewTabs

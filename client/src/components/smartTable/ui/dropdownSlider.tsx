@@ -7,7 +7,7 @@ import { InitialSliderValues } from '../lib/types'
 
 type CustomFilterDropdownProps = FilterDropdownProps & InitialSliderValues
 
-export const DropdownSlider = ({
+const DropdownSlider = ({
     setSelectedKeys,
     confirm,
     clearFilters,
@@ -69,3 +69,5 @@ export const DropdownSlider = ({
         </div>
     )
 }
+
+export default React.memo(DropdownSlider)
