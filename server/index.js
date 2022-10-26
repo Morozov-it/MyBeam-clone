@@ -3,7 +3,11 @@ const auth = require('json-server-auth')
 const cors = require('cors')
 const app = jsonServer.create()
 const router = jsonServer.router('db.json')
-const middlewares = jsonServer.defaults()
+const middlewares = jsonServer.defaults({
+    static: '../client/build',
+})
+
+const PORT = process.env.PORT || 5000
 
 // /!\ Bind the router db to the app
 app.db = router.db
@@ -29,4 +33,4 @@ app.use(middlewares)
 app.use(rules)
 app.use(auth)
 app.use(router)
-app.listen(5000, () => console.log('Server is running on port 5000'))
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
